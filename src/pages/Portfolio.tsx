@@ -744,3 +744,15 @@ function SocialIcon({ href, label, children }: { href: string; label: string; ch
     </a>
   );
 }
+
+function MiniStat({ icon: Icon, label, value }: { icon: React.ComponentType<{ className?: string }>; label: string; value: number }) {
+  return (
+    <div className="glass rounded-xl p-3 text-center">
+      <Icon className="size-4 mx-auto text-accent" />
+      <div className="mt-1 font-display font-bold text-lg tabular-nums">
+        <AnimatedCounter to={value} />
+      </div>
+      <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">{label}</div>
+    </div>
+  );
+}
