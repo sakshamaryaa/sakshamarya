@@ -194,7 +194,7 @@ export default function Portfolio() {
       <main>
         {/* HERO */}
         <section id="home" className="relative min-h-screen flex items-center pt-28 pb-20 px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-5xl text-center">
+          <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="mx-auto max-w-5xl text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-8">
               <span className="size-2 rounded-full bg-accent animate-pulse" />
               <span className="text-xs font-mono tracking-wider text-muted-foreground uppercase">Available for collaboration</span>
@@ -206,7 +206,14 @@ export default function Portfolio() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="font-display font-bold text-5xl sm:text-7xl lg:text-8xl leading-[1.05] tracking-tight"
             >
-              Hi, I'm <span className="text-gradient">Saksham Arya</span> <span className="inline-block animate-float">👋</span>
+              Hi, I'm <span className="text-gradient">Saksham Arya</span>{' '}
+              <motion.span
+                className="inline-block"
+                animate={{ rotate: [0, 18, -10, 18, 0] }}
+                transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
+              >
+                👋
+              </motion.span>
             </motion.h1>
 
             <motion.p
@@ -243,23 +250,17 @@ export default function Portfolio() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.9 }}
-              className="mt-10 flex flex-wrap items-center justify-center gap-3"
+              className="mt-10 flex flex-wrap items-center justify-center gap-4"
             >
-              <a href="#projects">
-                <Button size="lg" className="rounded-full bg-gradient-primary text-primary-foreground border-0 hover:opacity-90 px-6">
-                  Explore My Work <ArrowRight className="ml-2 size-4" />
-                </Button>
-              </a>
-              <a href="#contact">
-                <Button size="lg" variant="outline" className="rounded-full px-6 glass border-border">
-                  <Mail className="mr-2 size-4" /> Contact Me
-                </Button>
-              </a>
-              <a href="/resume.pdf" download>
-                <Button size="lg" variant="ghost" className="rounded-full px-6">
-                  <Download className="mr-2 size-4" /> Resume
-                </Button>
-              </a>
+              <MagneticButton href="#projects" className="rounded-full bg-gradient-primary text-primary-foreground px-7 py-3 text-sm font-semibold shadow-[var(--shadow-glow)]">
+                Explore My Work <ArrowRight className="ml-2 size-4" />
+              </MagneticButton>
+              <MagneticButton href="#contact" className="rounded-full glass border border-border px-7 py-3 text-sm font-semibold">
+                <Mail className="mr-2 size-4" /> Contact Me
+              </MagneticButton>
+              <MagneticButton href="/resume.pdf" download className="rounded-full px-7 py-3 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">
+                <Download className="mr-2 size-4" /> Resume
+              </MagneticButton>
             </motion.div>
 
             <motion.div
@@ -270,8 +271,47 @@ export default function Portfolio() {
             >
               <MapPin className="size-3" /> Bihar, India · <span className="text-foreground">Hindi · English</span>
             </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.6 }}
+              className="mt-16 hidden sm:flex flex-col items-center gap-2 text-muted-foreground"
+            >
+              <span className="text-[10px] font-mono tracking-[0.4em] uppercase">Scroll</span>
+              <motion.span
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                className="block h-6 w-px bg-gradient-to-b from-foreground/60 to-transparent"
+              />
+            </motion.div>
+          </motion.div>
+        </section>
+
+        {/* STATS */}
+        <section className="px-4 sm:px-6 lg:px-8 -mt-8">
+          <div className="mx-auto max-w-6xl glass-card rounded-3xl p-6 sm:p-10 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-4 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-primary opacity-[0.06]" />
+            {STATS.map((s, i) => (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="relative text-center"
+              >
+                <div className="font-display font-bold text-4xl sm:text-5xl text-gradient tabular-nums">
+                  <AnimatedCounter to={s.value} suffix={s.suffix} />
+                </div>
+                <div className="mt-2 text-xs sm:text-sm font-mono uppercase tracking-wider text-muted-foreground">
+                  {s.label}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </section>
+
 
         {/* ABOUT */}
         <Section id="about" eyebrow="About" title="Maker. Student. Tech Enthusiast.">
