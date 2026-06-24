@@ -430,35 +430,97 @@ export default function Portfolio() {
               </motion.div>
             ))}
           </div>
+
+          {/* Proficiency bars */}
+          <div className="mt-10 grid md:grid-cols-2 gap-x-12 gap-y-6 glass-card rounded-3xl p-8">
+            {SKILL_LEVELS.map((s, i) => (
+              <SkillBar key={s.label} label={s.label} value={s.value} delay={i * 0.08} />
+            ))}
+          </div>
         </Section>
 
         {/* PROJECTS */}
         <Section id="projects" eyebrow="Featured Projects" title="From Idea to Reality">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {PROJECTS.map((p, i) => (
-              <motion.article
+              <motion.div
                 key={p.title}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
-                whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
-                className="glass-card rounded-3xl p-6 relative overflow-hidden group"
-                style={{ transformStyle: 'preserve-3d' }}
               >
-                <div className="absolute -top-16 -right-16 size-40 rounded-full bg-gradient-primary opacity-0 group-hover:opacity-20 blur-3xl transition-opacity" />
-                <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full glass border border-border/50">
-                  {p.category}
-                </span>
-                <div className="mt-5 size-12 rounded-2xl bg-gradient-primary grid place-items-center text-primary-foreground shadow-[var(--shadow-glow)]">
-                  <p.icon className="size-6" />
-                </div>
-                <h3 className="mt-4 font-display font-semibold text-lg leading-snug">{p.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
-              </motion.article>
+                <TiltCard className="group glass-card rounded-3xl p-6 relative overflow-hidden h-full">
+                  <div className="absolute -top-16 -right-16 size-40 rounded-full bg-gradient-primary opacity-0 group-hover:opacity-25 blur-3xl transition-opacity duration-500" />
+                  <div className="relative" style={{ transform: 'translateZ(40px)' }}>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full glass border border-border/50">
+                      {p.category}
+                    </span>
+                    <div className="mt-5 size-12 rounded-2xl bg-gradient-primary grid place-items-center text-primary-foreground shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform">
+                      <p.icon className="size-6" />
+                    </div>
+                    <h3 className="mt-4 font-display font-semibold text-lg leading-snug">{p.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
+                    <div className="mt-4 flex items-center gap-1.5 text-xs font-mono text-accent opacity-0 group-hover:opacity-100 transition-opacity">
+                      Explore <ArrowRight className="size-3" />
+                    </div>
+                  </div>
+                </TiltCard>
+              </motion.div>
             ))}
           </div>
         </Section>
+
+        {/* GITHUB STATS */}
+        <Section id="github" eyebrow="GitHub" title="Code in the Open">
+          <motion.div {...FADE_UP} className="grid lg:grid-cols-3 gap-6">
+            <TiltCard className="glass-card rounded-3xl p-6 lg:col-span-1 group" max={6}>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="size-12 rounded-xl bg-gradient-primary grid place-items-center text-primary-foreground shadow-[var(--shadow-glow)]">
+                  <Github className="size-6" />
+                </span>
+                <div>
+                  <div className="font-display font-semibold">@{GITHUB_USERNAME}</div>
+                  <div className="text-xs text-muted-foreground font-mono">github.com</div>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Building robotics, IoT and AI-flavoured experiments in public. Follow along, fork the ideas, send PRs.
+              </p>
+              <div className="mt-6 grid grid-cols-3 gap-3">
+                <MiniStat icon={Star} label="Stars" value={42} />
+                <MiniStat icon={GitBranch} label="Repos" value={18} />
+                <MiniStat icon={Flame} label="Streak" value={67} />
+              </div>
+              <MagneticButton
+                href={`https://github.com/${GITHUB_USERNAME}`}
+                className="mt-6 w-full rounded-xl bg-gradient-primary text-primary-foreground px-5 py-2.5 text-sm font-semibold"
+              >
+                Visit GitHub <ArrowRight className="ml-2 size-4" />
+              </MagneticButton>
+            </TiltCard>
+
+            <div className="lg:col-span-2 grid gap-6">
+              <div className="glass-card rounded-3xl p-3 overflow-hidden">
+                <img
+                  loading="lazy"
+                  alt="GitHub stats"
+                  src={`https://github-readme-stats.vercel.app/api?username=${GITHUB_USERNAME}&show_icons=true&hide_border=true&bg_color=00000000&title_color=A78BFA&icon_color=22D3EE&text_color=A1A1AA&include_all_commits=true`}
+                  className="w-full h-auto rounded-2xl"
+                />
+              </div>
+              <div className="glass-card rounded-3xl p-3 overflow-hidden">
+                <img
+                  loading="lazy"
+                  alt="GitHub contribution streak"
+                  src={`https://streak-stats.demolab.com?user=${GITHUB_USERNAME}&hide_border=true&background=00000000&ring=A78BFA&fire=22D3EE&currStreakLabel=A78BFA&sideLabels=A1A1AA&dates=71717A&stroke=A78BFA&currStreakNum=FAFAFA&sideNums=FAFAFA`}
+                  className="w-full h-auto rounded-2xl"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </Section>
+
 
         {/* HACKATHON */}
         <Section id="hackathon" eyebrow="Hackathon" title="Leading at AI VIDYASETU 1.0">
