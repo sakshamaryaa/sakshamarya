@@ -116,6 +116,11 @@ const FADE_UP = {
 export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const { scrollY } = useScroll();
+  const blobY1 = useTransform(scrollY, [0, 1000], [0, 200]);
+  const blobY2 = useTransform(scrollY, [0, 1000], [0, -180]);
+  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.2]);
+  const heroScale = useTransform(scrollY, [0, 500], [1, 0.96]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,12 +138,13 @@ export default function Portfolio() {
       <ScrollProgress />
       <ParticleBackground />
 
-      {/* Ambient gradient blobs */}
+      {/* Ambient gradient blobs with parallax */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-        <div className="absolute -top-40 -left-40 size-[500px] rounded-full bg-gradient-primary opacity-20 blur-3xl animate-float" />
-        <div className="absolute top-1/2 -right-40 size-[600px] rounded-full bg-gradient-primary opacity-15 blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <motion.div style={{ y: blobY1 }} className="absolute -top-40 -left-40 size-[500px] rounded-full bg-gradient-primary opacity-20 blur-3xl animate-float" />
+        <motion.div style={{ y: blobY2 }} className="absolute top-1/2 -right-40 size-[600px] rounded-full bg-gradient-primary opacity-15 blur-3xl animate-float" />
         <div className="absolute inset-0 grid-pattern opacity-40" />
       </div>
+
 
       {/* Header */}
       <header className="fixed top-0 inset-x-0 z-50">
