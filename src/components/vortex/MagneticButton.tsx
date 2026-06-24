@@ -56,9 +56,8 @@ export function MagneticButton({
       style={{ x: sx, y: sy, rotateX, rotateY, transformStyle: 'preserve-3d' }}
       className="inline-block"
     >
-      {/* @ts-expect-error polymorphic ref */}
       <Tag
-        ref={ref}
+        ref={ref as React.Ref<HTMLAnchorElement> & React.Ref<HTMLButtonElement>}
         href={href}
         onClick={onClick}
         onPointerMove={handleMove}
