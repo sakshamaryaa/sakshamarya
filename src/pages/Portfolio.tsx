@@ -161,11 +161,12 @@ export default function Portfolio() {
                 </a>
               ))}
             </nav>
-            <a href="#contact" className="hidden md:inline-flex">
-              <Button size="sm" className="rounded-full bg-gradient-primary text-primary-foreground border-0 hover:opacity-90">
-                Let's Talk
-              </Button>
-            </a>
+            <div className="hidden md:flex items-center gap-3">
+              <VortexThemeToggle />
+              <MagneticButton href="#contact" className="rounded-full bg-gradient-primary text-primary-foreground px-5 py-2 text-sm font-medium shadow-[var(--shadow-glow)] hover:opacity-95">
+                Let's Talk <ArrowRight className="ml-1.5 size-4" />
+              </MagneticButton>
+            </div>
             <button
               onClick={() => setMenuOpen((v) => !v)}
               className="md:hidden size-9 grid place-items-center rounded-full hover:bg-muted"
