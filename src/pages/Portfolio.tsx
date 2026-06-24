@@ -1,17 +1,41 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight, Download, Mail, MapPin, Github, Linkedin, Instagram,
   Cpu, Bot, Zap, Shield, Wifi, Calculator, GraduationCap, Trophy,
   Sparkles, Code2, Rocket, Heart, Camera, Music, Brain, Users,
-  Lightbulb, Target, BookOpen,
+  Lightbulb, Target, BookOpen, Star, GitBranch, Flame,
 } from 'lucide-react';
 import { ParticleBackground } from '@/components/vortex/ParticleBackground';
 import { TypingText } from '@/components/vortex/TypingText';
 import { ScrollProgress } from '@/components/vortex/ScrollProgress';
 import { LoadingScreen } from '@/components/vortex/LoadingScreen';
+import { MagneticButton } from '@/components/vortex/MagneticButton';
+import { TiltCard } from '@/components/vortex/TiltCard';
+import { AnimatedCounter } from '@/components/vortex/AnimatedCounter';
+import { SkillBar } from '@/components/vortex/SkillBar';
+import { VortexThemeToggle } from '@/components/vortex/ThemeToggle';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+
+const GITHUB_USERNAME = 'sakshamarya';
+
+const STATS = [
+  { value: 15, suffix: '+', label: 'Projects Built' },
+  { value: 3, suffix: '+', label: 'Years Tinkering' },
+  { value: 1, suffix: '', label: 'Hackathon Led' },
+  { value: 20, suffix: '+', label: 'Technologies' },
+];
+
+const SKILL_LEVELS = [
+  { label: 'Python', value: 85 },
+  { label: 'Arduino / Embedded', value: 90 },
+  { label: 'JavaScript / TypeScript', value: 75 },
+  { label: 'HTML / CSS', value: 88 },
+  { label: 'AI Tools & Prompting', value: 80 },
+  { label: 'Robotics & Electronics', value: 92 },
+];
+
 
 const NAV = [
   { label: 'Home', href: '#home' },
