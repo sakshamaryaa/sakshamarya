@@ -4,7 +4,7 @@ import {
   ArrowRight, Download, Mail, MapPin, Github, Linkedin, Instagram,
   Cpu, Bot, Zap, Shield, Wifi, Calculator, GraduationCap, Trophy,
   Sparkles, Code2, Rocket, Heart, Camera, Music, Brain, Users,
-  Lightbulb, Target, BookOpen, Star, GitBranch, Flame,
+  Lightbulb, Target, BookOpen, Star, GitBranch, Flame, MessageCircle,
 } from 'lucide-react';
 import { ParticleBackground } from '@/components/vortex/ParticleBackground';
 import { TypingText } from '@/components/vortex/TypingText';
@@ -18,7 +18,78 @@ import { VortexThemeToggle } from '@/components/vortex/ThemeToggle';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
-const GITHUB_USERNAME = 'sakshamarya';
+const GITHUB_USERNAME = 'sakshamaryaa';
+
+/* ---------- helpers (defined first to prevent hoisting reference errors) ---------- */
+
+function Section({ id, eyebrow, title, children }: { id: string; eyebrow: string; title: string; children: React.ReactNode }) {
+  return (
+    <section id={id} className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6 }}
+          className="mb-12 text-center"
+        >
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-accent">{eyebrow}</div>
+          <h2 className="mt-3 font-display font-bold text-3xl sm:text-5xl tracking-tight">{title}</h2>
+          <div className="mx-auto mt-4 h-px w-16 bg-gradient-primary" />
+        </motion.div>
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between items-start gap-4 border-b border-border/50 pb-2">
+      <dt className="text-xs uppercase tracking-wider text-muted-foreground">{label}</dt>
+      <dd className="text-right text-foreground">{value}</dd>
+    </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <span className="block text-xs uppercase tracking-wider text-muted-foreground mb-1.5">{label}</span>
+      {children}
+    </label>
+  );
+}
+
+function ContactRow({ icon: Icon, label }: { icon: React.ComponentType<{ className?: string }>; label: string }) {
+  return (
+    <div className="flex items-center gap-3 text-sm">
+      <span className="size-9 rounded-lg glass grid place-items-center"><Icon className="size-4 text-accent" /></span>
+      {label}
+    </div>
+  );
+}
+
+function SocialIcon({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="size-10 rounded-xl glass grid place-items-center hover:border-primary/50 transition-colors">
+      {children}
+    </a>
+  );
+}
+
+function MiniStat({ icon: Icon, label, value }: { icon: React.ComponentType<{ className?: string }>; label: string; value: number }) {
+  return (
+    <div className="glass rounded-xl p-3 text-center">
+      <Icon className="size-4 mx-auto text-accent" />
+      <div className="mt-1 font-display font-bold text-lg tabular-nums">
+        <AnimatedCounter to={value} />
+      </div>
+      <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
 
 const STATS = [
   { value: 15, suffix: '+', label: 'Projects Built' },
