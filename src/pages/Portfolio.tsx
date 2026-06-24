@@ -1,17 +1,41 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight, Download, Mail, MapPin, Github, Linkedin, Instagram,
   Cpu, Bot, Zap, Shield, Wifi, Calculator, GraduationCap, Trophy,
   Sparkles, Code2, Rocket, Heart, Camera, Music, Brain, Users,
-  Lightbulb, Target, BookOpen,
+  Lightbulb, Target, BookOpen, Star, GitBranch, Flame,
 } from 'lucide-react';
 import { ParticleBackground } from '@/components/vortex/ParticleBackground';
 import { TypingText } from '@/components/vortex/TypingText';
 import { ScrollProgress } from '@/components/vortex/ScrollProgress';
 import { LoadingScreen } from '@/components/vortex/LoadingScreen';
+import { MagneticButton } from '@/components/vortex/MagneticButton';
+import { TiltCard } from '@/components/vortex/TiltCard';
+import { AnimatedCounter } from '@/components/vortex/AnimatedCounter';
+import { SkillBar } from '@/components/vortex/SkillBar';
+import { VortexThemeToggle } from '@/components/vortex/ThemeToggle';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+
+const GITHUB_USERNAME = 'sakshamarya';
+
+const STATS = [
+  { value: 15, suffix: '+', label: 'Projects Built' },
+  { value: 3, suffix: '+', label: 'Years Tinkering' },
+  { value: 1, suffix: '', label: 'Hackathon Led' },
+  { value: 20, suffix: '+', label: 'Technologies' },
+];
+
+const SKILL_LEVELS = [
+  { label: 'Python', value: 85 },
+  { label: 'Arduino / Embedded', value: 90 },
+  { label: 'JavaScript / TypeScript', value: 75 },
+  { label: 'HTML / CSS', value: 88 },
+  { label: 'AI Tools & Prompting', value: 80 },
+  { label: 'Robotics & Electronics', value: 92 },
+];
+
 
 const NAV = [
   { label: 'Home', href: '#home' },
@@ -92,6 +116,11 @@ const FADE_UP = {
 export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const { scrollY } = useScroll();
+  const blobY1 = useTransform(scrollY, [0, 1000], [0, 200]);
+  const blobY2 = useTransform(scrollY, [0, 1000], [0, -180]);
+  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.2]);
+  const heroScale = useTransform(scrollY, [0, 500], [1, 0.96]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,12 +138,13 @@ export default function Portfolio() {
       <ScrollProgress />
       <ParticleBackground />
 
-      {/* Ambient gradient blobs */}
+      {/* Ambient gradient blobs with parallax */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-        <div className="absolute -top-40 -left-40 size-[500px] rounded-full bg-gradient-primary opacity-20 blur-3xl animate-float" />
-        <div className="absolute top-1/2 -right-40 size-[600px] rounded-full bg-gradient-primary opacity-15 blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <motion.div style={{ y: blobY1 }} className="absolute -top-40 -left-40 size-[500px] rounded-full bg-gradient-primary opacity-20 blur-3xl animate-float" />
+        <motion.div style={{ y: blobY2 }} className="absolute top-1/2 -right-40 size-[600px] rounded-full bg-gradient-primary opacity-15 blur-3xl animate-float" />
         <div className="absolute inset-0 grid-pattern opacity-40" />
       </div>
+
 
       {/* Header */}
       <header className="fixed top-0 inset-x-0 z-50">
@@ -131,11 +161,12 @@ export default function Portfolio() {
                 </a>
               ))}
             </nav>
-            <a href="#contact" className="hidden md:inline-flex">
-              <Button size="sm" className="rounded-full bg-gradient-primary text-primary-foreground border-0 hover:opacity-90">
-                Let's Talk
-              </Button>
-            </a>
+            <div className="hidden md:flex items-center gap-3">
+              <VortexThemeToggle />
+              <MagneticButton href="#contact" className="rounded-full bg-gradient-primary text-primary-foreground px-5 py-2 text-sm font-medium shadow-[var(--shadow-glow)] hover:opacity-95">
+                Let's Talk <ArrowRight className="ml-1.5 size-4" />
+              </MagneticButton>
+            </div>
             <button
               onClick={() => setMenuOpen((v) => !v)}
               className="md:hidden size-9 grid place-items-center rounded-full hover:bg-muted"
@@ -163,7 +194,7 @@ export default function Portfolio() {
       <main>
         {/* HERO */}
         <section id="home" className="relative min-h-screen flex items-center pt-28 pb-20 px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-5xl text-center">
+          <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="mx-auto max-w-5xl text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-8">
               <span className="size-2 rounded-full bg-accent animate-pulse" />
               <span className="text-xs font-mono tracking-wider text-muted-foreground uppercase">Available for collaboration</span>
@@ -175,7 +206,14 @@ export default function Portfolio() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="font-display font-bold text-5xl sm:text-7xl lg:text-8xl leading-[1.05] tracking-tight"
             >
-              Hi, I'm <span className="text-gradient">Saksham Arya</span> <span className="inline-block animate-float">👋</span>
+              Hi, I'm <span className="text-gradient">Saksham Arya</span>{' '}
+              <motion.span
+                className="inline-block"
+                animate={{ rotate: [0, 18, -10, 18, 0] }}
+                transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
+              >
+                👋
+              </motion.span>
             </motion.h1>
 
             <motion.p
@@ -212,23 +250,17 @@ export default function Portfolio() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.9 }}
-              className="mt-10 flex flex-wrap items-center justify-center gap-3"
+              className="mt-10 flex flex-wrap items-center justify-center gap-4"
             >
-              <a href="#projects">
-                <Button size="lg" className="rounded-full bg-gradient-primary text-primary-foreground border-0 hover:opacity-90 px-6">
-                  Explore My Work <ArrowRight className="ml-2 size-4" />
-                </Button>
-              </a>
-              <a href="#contact">
-                <Button size="lg" variant="outline" className="rounded-full px-6 glass border-border">
-                  <Mail className="mr-2 size-4" /> Contact Me
-                </Button>
-              </a>
-              <a href="/resume.pdf" download>
-                <Button size="lg" variant="ghost" className="rounded-full px-6">
-                  <Download className="mr-2 size-4" /> Resume
-                </Button>
-              </a>
+              <MagneticButton href="#projects" className="rounded-full bg-gradient-primary text-primary-foreground px-7 py-3 text-sm font-semibold shadow-[var(--shadow-glow)]">
+                Explore My Work <ArrowRight className="ml-2 size-4" />
+              </MagneticButton>
+              <MagneticButton href="#contact" className="rounded-full glass border border-border px-7 py-3 text-sm font-semibold">
+                <Mail className="mr-2 size-4" /> Contact Me
+              </MagneticButton>
+              <MagneticButton href="/resume.pdf" download className="rounded-full px-7 py-3 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">
+                <Download className="mr-2 size-4" /> Resume
+              </MagneticButton>
             </motion.div>
 
             <motion.div
@@ -239,8 +271,47 @@ export default function Portfolio() {
             >
               <MapPin className="size-3" /> Bihar, India · <span className="text-foreground">Hindi · English</span>
             </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.6 }}
+              className="mt-16 hidden sm:flex flex-col items-center gap-2 text-muted-foreground"
+            >
+              <span className="text-[10px] font-mono tracking-[0.4em] uppercase">Scroll</span>
+              <motion.span
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                className="block h-6 w-px bg-gradient-to-b from-foreground/60 to-transparent"
+              />
+            </motion.div>
+          </motion.div>
+        </section>
+
+        {/* STATS */}
+        <section className="px-4 sm:px-6 lg:px-8 -mt-8">
+          <div className="mx-auto max-w-6xl glass-card rounded-3xl p-6 sm:p-10 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-4 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-primary opacity-[0.06]" />
+            {STATS.map((s, i) => (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="relative text-center"
+              >
+                <div className="font-display font-bold text-4xl sm:text-5xl text-gradient tabular-nums">
+                  <AnimatedCounter to={s.value} suffix={s.suffix} />
+                </div>
+                <div className="mt-2 text-xs sm:text-sm font-mono uppercase tracking-wider text-muted-foreground">
+                  {s.label}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </section>
+
 
         {/* ABOUT */}
         <Section id="about" eyebrow="About" title="Maker. Student. Tech Enthusiast.">
@@ -359,35 +430,97 @@ export default function Portfolio() {
               </motion.div>
             ))}
           </div>
+
+          {/* Proficiency bars */}
+          <div className="mt-10 grid md:grid-cols-2 gap-x-12 gap-y-6 glass-card rounded-3xl p-8">
+            {SKILL_LEVELS.map((s, i) => (
+              <SkillBar key={s.label} label={s.label} value={s.value} delay={i * 0.08} />
+            ))}
+          </div>
         </Section>
 
         {/* PROJECTS */}
         <Section id="projects" eyebrow="Featured Projects" title="From Idea to Reality">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {PROJECTS.map((p, i) => (
-              <motion.article
+              <motion.div
                 key={p.title}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
-                whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
-                className="glass-card rounded-3xl p-6 relative overflow-hidden group"
-                style={{ transformStyle: 'preserve-3d' }}
               >
-                <div className="absolute -top-16 -right-16 size-40 rounded-full bg-gradient-primary opacity-0 group-hover:opacity-20 blur-3xl transition-opacity" />
-                <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full glass border border-border/50">
-                  {p.category}
-                </span>
-                <div className="mt-5 size-12 rounded-2xl bg-gradient-primary grid place-items-center text-primary-foreground shadow-[var(--shadow-glow)]">
-                  <p.icon className="size-6" />
-                </div>
-                <h3 className="mt-4 font-display font-semibold text-lg leading-snug">{p.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
-              </motion.article>
+                <TiltCard className="group glass-card rounded-3xl p-6 relative overflow-hidden h-full">
+                  <div className="absolute -top-16 -right-16 size-40 rounded-full bg-gradient-primary opacity-0 group-hover:opacity-25 blur-3xl transition-opacity duration-500" />
+                  <div className="relative" style={{ transform: 'translateZ(40px)' }}>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full glass border border-border/50">
+                      {p.category}
+                    </span>
+                    <div className="mt-5 size-12 rounded-2xl bg-gradient-primary grid place-items-center text-primary-foreground shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform">
+                      <p.icon className="size-6" />
+                    </div>
+                    <h3 className="mt-4 font-display font-semibold text-lg leading-snug">{p.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
+                    <div className="mt-4 flex items-center gap-1.5 text-xs font-mono text-accent opacity-0 group-hover:opacity-100 transition-opacity">
+                      Explore <ArrowRight className="size-3" />
+                    </div>
+                  </div>
+                </TiltCard>
+              </motion.div>
             ))}
           </div>
         </Section>
+
+        {/* GITHUB STATS */}
+        <Section id="github" eyebrow="GitHub" title="Code in the Open">
+          <motion.div {...FADE_UP} className="grid lg:grid-cols-3 gap-6">
+            <TiltCard className="glass-card rounded-3xl p-6 lg:col-span-1 group" max={6}>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="size-12 rounded-xl bg-gradient-primary grid place-items-center text-primary-foreground shadow-[var(--shadow-glow)]">
+                  <Github className="size-6" />
+                </span>
+                <div>
+                  <div className="font-display font-semibold">@{GITHUB_USERNAME}</div>
+                  <div className="text-xs text-muted-foreground font-mono">github.com</div>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Building robotics, IoT and AI-flavoured experiments in public. Follow along, fork the ideas, send PRs.
+              </p>
+              <div className="mt-6 grid grid-cols-3 gap-3">
+                <MiniStat icon={Star} label="Stars" value={42} />
+                <MiniStat icon={GitBranch} label="Repos" value={18} />
+                <MiniStat icon={Flame} label="Streak" value={67} />
+              </div>
+              <MagneticButton
+                href={`https://github.com/${GITHUB_USERNAME}`}
+                className="mt-6 w-full rounded-xl bg-gradient-primary text-primary-foreground px-5 py-2.5 text-sm font-semibold"
+              >
+                Visit GitHub <ArrowRight className="ml-2 size-4" />
+              </MagneticButton>
+            </TiltCard>
+
+            <div className="lg:col-span-2 grid gap-6">
+              <div className="glass-card rounded-3xl p-3 overflow-hidden">
+                <img
+                  loading="lazy"
+                  alt="GitHub stats"
+                  src={`https://github-readme-stats.vercel.app/api?username=${GITHUB_USERNAME}&show_icons=true&hide_border=true&bg_color=00000000&title_color=A78BFA&icon_color=22D3EE&text_color=A1A1AA&include_all_commits=true`}
+                  className="w-full h-auto rounded-2xl"
+                />
+              </div>
+              <div className="glass-card rounded-3xl p-3 overflow-hidden">
+                <img
+                  loading="lazy"
+                  alt="GitHub contribution streak"
+                  src={`https://streak-stats.demolab.com?user=${GITHUB_USERNAME}&hide_border=true&background=00000000&ring=A78BFA&fire=22D3EE&currStreakLabel=A78BFA&sideLabels=A1A1AA&dates=71717A&stroke=A78BFA&currStreakNum=FAFAFA&sideNums=FAFAFA`}
+                  className="w-full h-auto rounded-2xl"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </Section>
+
 
         {/* HACKATHON */}
         <Section id="hackathon" eyebrow="Hackathon" title="Leading at AI VIDYASETU 1.0">
@@ -609,5 +742,17 @@ function SocialIcon({ href, label, children }: { href: string; label: string; ch
     <a href={href} aria-label={label} className="size-10 rounded-xl glass grid place-items-center hover:border-primary/50 transition-colors">
       {children}
     </a>
+  );
+}
+
+function MiniStat({ icon: Icon, label, value }: { icon: React.ComponentType<{ className?: string }>; label: string; value: number }) {
+  return (
+    <div className="glass rounded-xl p-3 text-center">
+      <Icon className="size-4 mx-auto text-accent" />
+      <div className="mt-1 font-display font-bold text-lg tabular-nums">
+        <AnimatedCounter to={value} />
+      </div>
+      <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">{label}</div>
+    </div>
   );
 }
