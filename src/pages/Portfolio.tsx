@@ -697,14 +697,20 @@ export default function Portfolio() {
             <motion.div {...FADE_UP} className="glass-card rounded-3xl p-8">
               <h3 className="font-display font-semibold text-xl">Get in touch</h3>
               <p className="mt-2 text-sm text-muted-foreground">Open to collaboration, learning opportunities and interesting tech conversations.</p>
-              <div className="mt-6 space-y-3">
+              <div className="mt-6 space-y-4">
                 <ContactRow icon={MapPin} label="Bihar, India" />
-                <ContactRow icon={Mail} label="Connect via the form" />
+                <a href="mailto:mr.sakshamaryaa@gmail.com" className="block hover:text-accent transition-colors">
+                  <ContactRow icon={Mail} label="mr.sakshamaryaa@gmail.com" />
+                </a>
+                <a href="https://wa.me/917061096010" target="_blank" rel="noopener noreferrer" className="block hover:text-accent transition-colors">
+                  <ContactRow icon={MessageCircle} label="+91 7061096010" />
+                </a>
               </div>
               <div className="mt-8 flex gap-3">
-                <SocialIcon href="#" label="GitHub"><Github className="size-4" /></SocialIcon>
-                <SocialIcon href="#" label="LinkedIn"><Linkedin className="size-4" /></SocialIcon>
-                <SocialIcon href="#" label="Instagram"><Instagram className="size-4" /></SocialIcon>
+                <SocialIcon href={`https://github.com/${GITHUB_USERNAME}`} label="GitHub"><Github className="size-4" /></SocialIcon>
+                <SocialIcon href="https://instagram.com/sakshamaryaaa" label="Instagram"><Instagram className="size-4" /></SocialIcon>
+                <SocialIcon href="https://wa.me/917061096010" label="WhatsApp"><MessageCircle className="size-4" /></SocialIcon>
+                <SocialIcon href="mailto:mr.sakshamaryaa@gmail.com" label="Gmail"><Mail className="size-4" /></SocialIcon>
               </div>
             </motion.div>
 
