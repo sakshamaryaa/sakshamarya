@@ -331,18 +331,24 @@ function About() {
 
           <div className="lg:col-span-4 lg:pt-2">
             <Reveal delay={0.35}>
-              <dl className="font-mono text-xs uppercase tracking-wider divide-hairline">
+              <dl className="font-mono text-xs uppercase tracking-wider divide-y divide-hairline">
                 {[
                   ['Based in', 'Bihar, India'],
-                  ['School', 'PM SHRI KENDRIYA VIDYALAYA OFN RAJGIR'],
+                  ['School', 'PM SHRI KENDRIYA VIDYALAYA OFN RAJGIR', true], // highlighted/long
                   ['Speaks', 'Hindi · English'],
                   ['Currently', 'Class XI · Science'],
                   ['Focus', 'AI · Robotics · Design'],
                   ['Status', 'Open to ideas'],
-                ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between py-4 gap-4">
-                    <dt className="text-muted-foreground shrink-0">{k}</dt>
-                    <dd className="text-foreground tracking-normal normal-case font-sans text-right">{v}</dd>
+                ].map(([k, v, highlight]) => (
+                  <div key={k as string} className="flex flex-col sm:flex-row lg:flex-col xl:flex-row justify-between items-start py-4 gap-2">
+                    <dt className="text-muted-foreground shrink-0 font-medium tracking-[0.2em]">{k as string}</dt>
+                    <dd className={`tracking-normal normal-case font-sans text-left sm:text-right lg:text-left xl:text-right ${
+                      highlight 
+                        ? 'text-foreground font-semibold text-[13px] bg-foreground/5 px-2.5 py-1 rounded border border-foreground/10 tracking-wide font-mono uppercase' 
+                        : 'text-foreground/80 text-sm'
+                    }`}>
+                      {v as string}
+                    </dd>
                   </div>
                 ))}
               </dl>
