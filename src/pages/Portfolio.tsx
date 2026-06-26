@@ -162,9 +162,10 @@ function Eyebrow({ n, children }: { n: string; children: React.ReactNode }) {
   );
 }
 
-function Reveal({ children, delay = 0, y = 24 }: { children: React.ReactNode; delay?: number; y?: number }) {
+function Reveal({ children, delay = 0, y = 24, className }: { children: React.ReactNode; delay?: number; y?: number; className?: string }) {
   return (
     <motion.div
+      className={className}
       initial={{ opacity: 0, y, filter: 'blur(8px)' }}
       whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       viewport={{ once: true, margin: '-80px' }}
@@ -174,6 +175,7 @@ function Reveal({ children, delay = 0, y = 24 }: { children: React.ReactNode; de
     </motion.div>
   );
 }
+
 
 /* ───────────────────────── ROTATING WORD ───────────────────────── */
 
@@ -704,15 +706,15 @@ function Contact() {
 
         <div className="mt-16 grid lg:grid-cols-12 gap-10">
           {/* Form */}
-          <Reveal delay={0.2}>
-            <form onSubmit={submit} className="lg:col-span-7 glass-card rounded-3xl p-8 sm:p-10 relative overflow-hidden">
+          <Reveal delay={0.2} className="lg:col-span-7">
+            <form onSubmit={submit} className="glass-card rounded-3xl p-6 sm:p-10 relative overflow-hidden">
               <Spotlight size={500} color="hsl(var(--aurora-purple) / 0.18)" />
               <div className="relative space-y-7">
                 <FloatingField label="Your name" value={form.name} onChange={(v) => setForm((f) => ({ ...f, name: v }))} />
                 <FloatingField label="Email" type="email" value={form.email} onChange={(v) => setForm((f) => ({ ...f, email: v }))} />
                 <FloatingField label="Message" textarea value={form.message} onChange={(v) => setForm((f) => ({ ...f, message: v }))} />
 
-                <div className="flex items-center justify-between pt-2">
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
                   <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">Encrypted in transit</span>
                   <MagneticButton
                     onClick={submit as any}
@@ -729,15 +731,15 @@ function Contact() {
           </Reveal>
 
           {/* Direct channels */}
-          <Reveal delay={0.3}>
-            <div className="lg:col-span-5 space-y-3">
+          <Reveal delay={0.3} className="lg:col-span-5">
+            <div className="space-y-3">
               <ContactCard href={SOCIAL.email} icon={Mail} title="Email" sub="mr.sakshamaryaa@gmail.com" />
               <ContactCard href={SOCIAL.whatsapp} icon={MessageCircle} title="WhatsApp" sub="+91 7061096010" />
               <ContactCard href={SOCIAL.instagram} icon={Instagram} title="Instagram" sub="@sakshamaryaaa" />
               <ContactCard href={SOCIAL.github} icon={Github} title="GitHub" sub="sakshamaryaaa" />
               <div className="mt-6 p-6 rounded-2xl glass-card noise flex items-center gap-3">
-                <MapPin className="size-4 text-muted-foreground" />
-                <div>
+                <MapPin className="size-4 text-muted-foreground shrink-0" />
+                <div className="min-w-0">
                   <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">Based in</div>
                   <div className="font-display text-lg">Bihar, India</div>
                 </div>
@@ -745,6 +747,7 @@ function Contact() {
             </div>
           </Reveal>
         </div>
+
       </div>
     </section>
   );
