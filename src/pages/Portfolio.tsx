@@ -334,14 +334,15 @@ function About() {
               <dl className="font-mono text-xs uppercase tracking-wider divide-hairline">
                 {[
                   ['Based in', 'Bihar, India'],
+                  ['School', 'PM SHRI KENDRIYA VIDYALAYA OFN RAJGIR'],
                   ['Speaks', 'Hindi · English'],
                   ['Currently', 'Class XI · Science'],
                   ['Focus', 'AI · Robotics · Design'],
                   ['Status', 'Open to ideas'],
                 ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between py-4">
-                    <dt className="text-muted-foreground">{k}</dt>
-                    <dd className="text-foreground tracking-normal normal-case font-sans">{v}</dd>
+                  <div key={k} className="flex items-center justify-between py-4 gap-4">
+                    <dt className="text-muted-foreground shrink-0">{k}</dt>
+                    <dd className="text-foreground tracking-normal normal-case font-sans text-right">{v}</dd>
                   </div>
                 ))}
               </dl>
