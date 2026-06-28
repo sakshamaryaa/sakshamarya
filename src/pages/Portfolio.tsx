@@ -211,15 +211,102 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
+  // Mouse parallax
+  const [parallax, setParallax] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      setParallax({
+        x: ((e.clientX - cx) / cx) * 14,
+        y: ((e.clientY - cy) / cy) * 14,
+      });
+    };
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
+
   return (
     <section id="home" ref={ref} className="relative min-h-[100svh] overflow-hidden">
       <Spotlight size={620} color="hsl(var(--electric-blue) / 0.22)" />
 
       {/* status bar */}
-      <div className="absolute top-24 inset-x-0 px-6 lg:px-10 flex justify-between font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+      <div className="absolute top-24 inset-x-0 px-6 lg:px-10 flex justify-between font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground z-20">
         <span>N · 25.59° E · 85.13°</span>
         <span className="hidden md:inline">Bihar, India</span>
         <span className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> Online</span>
+      </div>
+
+      {/* Portrait — right 55-60% with soft mask & ambient glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[60%] overflow-hidden"
+      >
+        {/* ambient glow */}
+        <div
+          className="absolute -inset-20 opacity-70"
+          style={{
+            background:
+              'radial-gradient(60% 55% at 60% 45%, hsl(217 91% 60% / 0.35), transparent 70%), radial-gradient(50% 50% at 75% 70%, hsl(280 85% 65% / 0.28), transparent 75%)',
+            filter: 'blur(40px)',
+          }}
+        />
+        {/* image with ken burns + parallax */}
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0)`,
+            transition: 'transform 400ms cubic-bezier(0.22, 1, 0.36, 1)',
+          }}
+        >
+          <motion.img
+            src="/__l5e/assets-v1/ea6b3aef-0e2a-4458-a7a3-958891dcf068/saksham-train.jpg"
+            alt="Saksham Arya looking out a train window"
+            initial={{ scale: 1.05 }}
+            animate={{ scale: [1.05, 1.15, 1.05] }}
+            transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute inset-0 h-full w-full object-cover object-[60%_center] opacity-[0.92] lg:opacity-100"
+            style={{
+              WebkitMaskImage:
+                'radial-gradient(120% 90% at 75% 50%, black 35%, transparent 78%), linear-gradient(to left, black 55%, transparent 100%)',
+              maskImage:
+                'radial-gradient(120% 90% at 75% 50%, black 35%, transparent 78%), linear-gradient(to left, black 55%, transparent 100%)',
+              WebkitMaskComposite: 'source-in',
+              maskComposite: 'intersect',
+            }}
+          />
+        </motion.div>
+
+        {/* gradient blends into background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent lg:via-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
+        {/* subtle blue/purple wash */}
+        <div
+          className="absolute inset-0 mix-blend-overlay opacity-50"
+          style={{
+            background:
+              'linear-gradient(135deg, hsl(217 91% 60% / 0.25), transparent 50%, hsl(280 85% 65% / 0.2))',
+          }}
+        />
+
+        {/* Glass status card — lower-right over image */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+          className="pointer-events-auto absolute bottom-10 right-6 lg:right-10 max-w-[280px] glass rounded-2xl p-5 backdrop-blur-xl border border-white/10"
+        >
+          <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-3">
+            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Current Journey
+          </div>
+          <p className="font-display italic text-base leading-snug text-foreground/90">
+            "Building ideas into reality."
+          </p>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            Learning · Building · Innovating
+          </p>
+        </motion.div>
       </div>
 
       <motion.div
@@ -231,22 +318,22 @@ function Hero() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <h1 className="display-xl mt-8 text-[clamp(3rem,12vw,12rem)]">
+          <h1 className="display-xl mt-8 text-[clamp(3rem,10vw,10rem)] lg:max-w-[60%]">
             <span className="block text-gradient">Saksham Arya</span>
             <span className="block italic text-foreground/55 -mt-2 sm:-mt-4">aka Mr. Vortex</span>
           </h1>
         </Reveal>
 
         <Reveal delay={0.35}>
-          <div className="mt-10 flex flex-col lg:flex-row lg:items-end justify-between gap-10 max-w-7xl">
-            <p className="text-xl sm:text-2xl lg:text-3xl font-display italic text-foreground/80 max-w-2xl leading-snug">
+          <div className="mt-10 flex flex-col gap-8 lg:max-w-xl">
+            <p className="text-xl sm:text-2xl lg:text-3xl font-display italic text-foreground/80 leading-snug">
               A young <RotatingWord />
               <span className="block mt-1 not-italic font-sans text-base sm:text-lg text-muted-foreground tracking-normal">
                 Designing thinking machines and small futures from Bihar, India.
               </span>
             </p>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <MagneticButton
                 href="#work"
                 className="group inline-flex items-center gap-3 rounded-full bg-foreground text-background pl-6 pr-2 py-2 text-sm font-medium"
@@ -272,7 +359,7 @@ function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-8 inset-x-0 flex justify-center font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground"
+        className="absolute bottom-8 inset-x-0 flex justify-center font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground z-20"
       >
         <div className="flex flex-col items-center gap-2">
           <span>Scroll</span>
