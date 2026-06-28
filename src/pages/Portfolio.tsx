@@ -13,6 +13,7 @@ import { Aurora } from '@/components/vortex/Aurora';
 import { CustomCursor } from '@/components/vortex/CustomCursor';
 import { Spotlight } from '@/components/vortex/Spotlight';
 import { toast } from 'sonner';
+import sakshamPortrait from '@/assets/saksham-train.jpg.asset.json';
 
 /* ───────────────────────── DATA ───────────────────────── */
 
