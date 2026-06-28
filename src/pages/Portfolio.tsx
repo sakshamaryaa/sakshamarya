@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 import {
   ArrowUpRight, ArrowRight, Mail, MapPin, Github, Instagram,
   Cpu, Bot, Zap, Shield, Wifi, Calculator, Sparkles, Rocket,
@@ -13,7 +13,6 @@ import { Aurora } from '@/components/vortex/Aurora';
 import { CustomCursor } from '@/components/vortex/CustomCursor';
 import { Spotlight } from '@/components/vortex/Spotlight';
 import { toast } from 'sonner';
-import heroTrain from '@/assets/hero-train.jpg.asset.json';
 
 /* ───────────────────────── DATA ───────────────────────── */
 
@@ -212,95 +211,12 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  // mouse parallax
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const px = useSpring(mx, { stiffness: 60, damping: 18, mass: 0.6 });
-  const py = useSpring(my, { stiffness: 60, damping: 18, mass: 0.6 });
-  const imgX = useTransform(px, (v) => v * -24);
-  const imgY = useTransform(py, (v) => v * -18);
-  const glowX = useTransform(px, (v) => v * -40);
-  const glowY = useTransform(py, (v) => v * -30);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mx.set(((e.clientX - rect.left) / rect.width - 0.5) * 2);
-    my.set(((e.clientY - rect.top) / rect.height - 0.5) * 2);
-  };
-
   return (
-    <section
-      id="home"
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      className="relative min-h-[100svh] overflow-hidden"
-    >
+    <section id="home" ref={ref} className="relative min-h-[100svh] overflow-hidden">
       <Spotlight size={620} color="hsl(var(--electric-blue) / 0.22)" />
 
-      {/* ─── Cinematic portrait (right 55–60%) ─── */}
-      <div
-        className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[60%] z-0"
-        aria-hidden
-      >
-        {/* ambient blue/purple glow */}
-        <motion.div
-          style={{ x: glowX, y: glowY }}
-          className="absolute -inset-20"
-        >
-          <div className="absolute top-1/4 right-[15%] size-[55%] rounded-full blur-3xl opacity-60"
-               style={{ background: 'radial-gradient(circle, hsl(var(--electric-blue) / 0.35), transparent 70%)' }} />
-          <div className="absolute bottom-[10%] right-[5%] size-[45%] rounded-full blur-3xl opacity-50"
-               style={{ background: 'radial-gradient(circle, hsl(270 80% 60% / 0.35), transparent 70%)' }} />
-        </motion.div>
-
-        {/* image with Ken Burns + parallax */}
-        <motion.div
-          style={{ x: imgX, y: imgY }}
-          className="absolute inset-0"
-        >
-          <motion.img
-            src={heroTrain.url}
-            alt="Saksham Arya looking out a train window"
-            initial={{ scale: 1.05 }}
-            animate={{ scale: [1.05, 1.18, 1.05] }}
-            transition={{ duration: 28, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute inset-0 h-full w-full object-cover object-[65%_center] opacity-90"
-            style={{
-              WebkitMaskImage:
-                'radial-gradient(ellipse 80% 75% at 70% 50%, black 45%, transparent 92%), linear-gradient(to left, black 40%, transparent 95%)',
-              WebkitMaskComposite: 'source-in',
-              maskImage:
-                'radial-gradient(ellipse 80% 75% at 70% 50%, black 45%, transparent 92%), linear-gradient(to left, black 40%, transparent 95%)',
-              maskComposite: 'intersect',
-            }}
-          />
-          {/* additional left fade so it blends into the dark UI */}
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent lg:via-background/40" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
-        </motion.div>
-
-        {/* glassmorphism status card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.8 }}
-          className="pointer-events-auto absolute bottom-10 right-6 lg:right-12 max-w-[280px] glass rounded-2xl p-4 backdrop-blur-xl border border-white/10"
-        >
-          <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Current Journey
-          </div>
-          <p className="mt-3 font-display italic text-sm sm:text-base leading-snug text-foreground/90">
-            “Building ideas into reality.
-            <span className="block text-foreground/60 not-italic font-sans text-xs mt-1 tracking-wide">
-              Learning • Building • Innovating
-            </span>
-          </p>
-        </motion.div>
-      </div>
-
       {/* status bar */}
-      <div className="absolute top-24 inset-x-0 px-6 lg:px-10 flex justify-between font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground z-20">
+      <div className="absolute top-24 inset-x-0 px-6 lg:px-10 flex justify-between font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
         <span>N · 25.59° E · 85.13°</span>
         <span className="hidden md:inline">Bihar, India</span>
         <span className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> Online</span>
@@ -310,47 +226,45 @@ function Hero() {
         style={{ y, opacity }}
         className="relative z-10 min-h-[100svh] flex flex-col justify-center px-6 lg:px-10 pt-40 pb-32"
       >
-        <div className="lg:max-w-[55%]">
-          <Reveal>
-            <Eyebrow n="00">Portfolio · MMXXV</Eyebrow>
-          </Reveal>
+        <Reveal>
+          <Eyebrow n="00">Portfolio · MMXXV</Eyebrow>
+        </Reveal>
 
-          <Reveal delay={0.15}>
-            <h1 className="display-xl mt-8 text-[clamp(3rem,9vw,9rem)]">
-              <span className="block text-gradient">Saksham Arya</span>
-              <span className="block italic text-foreground/55 -mt-2 sm:-mt-4">aka Mr. Vortex</span>
-            </h1>
-          </Reveal>
+        <Reveal delay={0.15}>
+          <h1 className="display-xl mt-8 text-[clamp(3rem,12vw,12rem)]">
+            <span className="block text-gradient">Saksham Arya</span>
+            <span className="block italic text-foreground/55 -mt-2 sm:-mt-4">aka Mr. Vortex</span>
+          </h1>
+        </Reveal>
 
-          <Reveal delay={0.35}>
-            <div className="mt-10 flex flex-col gap-8">
-              <p className="text-xl sm:text-2xl font-display italic text-foreground/80 max-w-xl leading-snug">
-                A young <RotatingWord />
-                <span className="block mt-1 not-italic font-sans text-base text-muted-foreground tracking-normal">
-                  Designing thinking machines and small futures from Bihar, India.
+        <Reveal delay={0.35}>
+          <div className="mt-10 flex flex-col lg:flex-row lg:items-end justify-between gap-10 max-w-7xl">
+            <p className="text-xl sm:text-2xl lg:text-3xl font-display italic text-foreground/80 max-w-2xl leading-snug">
+              A young <RotatingWord />
+              <span className="block mt-1 not-italic font-sans text-base sm:text-lg text-muted-foreground tracking-normal">
+                Designing thinking machines and small futures from Bihar, India.
+              </span>
+            </p>
+
+            <div className="flex items-center gap-4">
+              <MagneticButton
+                href="#work"
+                className="group inline-flex items-center gap-3 rounded-full bg-foreground text-background pl-6 pr-2 py-2 text-sm font-medium"
+              >
+                Explore the work
+                <span className="grid place-items-center size-9 rounded-full bg-background text-foreground transition-transform group-hover:rotate-45">
+                  <ArrowUpRight className="size-4" />
                 </span>
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <MagneticButton
-                  href="#work"
-                  className="group inline-flex items-center gap-3 rounded-full bg-foreground text-background pl-6 pr-2 py-2 text-sm font-medium"
-                >
-                  Explore the work
-                  <span className="grid place-items-center size-9 rounded-full bg-background text-foreground transition-transform group-hover:rotate-45">
-                    <ArrowUpRight className="size-4" />
-                  </span>
-                </MagneticButton>
-                <MagneticButton
-                  href="#contact"
-                  className="inline-flex items-center gap-2 rounded-full glass px-5 py-3 text-sm"
-                >
-                  Get in touch
-                </MagneticButton>
-              </div>
+              </MagneticButton>
+              <MagneticButton
+                href="#contact"
+                className="inline-flex items-center gap-2 rounded-full glass px-5 py-3 text-sm"
+              >
+                Get in touch
+              </MagneticButton>
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
       </motion.div>
 
       {/* scroll cue */}
@@ -358,7 +272,7 @@ function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-8 inset-x-0 flex justify-center font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground z-20"
+        className="absolute bottom-8 inset-x-0 flex justify-center font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground"
       >
         <div className="flex flex-col items-center gap-2">
           <span>Scroll</span>
