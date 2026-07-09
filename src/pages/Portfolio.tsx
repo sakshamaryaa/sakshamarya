@@ -939,55 +939,127 @@ function Footer() {
 function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeId, setActiveId] = useState<string>('about');
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    const ids = ['about', 'journey', 'skills', 'work', 'vision', 'contact'];
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    if (!els.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActiveId(visible[0].target.id);
+      },
+      { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  const links = NAV.slice(1, -1); // About → Vision
+
+  const Shell = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+    <div className={`relative rounded-full p-[1px] overflow-hidden group ${className}`}>
+      <div
+        aria-hidden
+        className="absolute inset-[-150%] opacity-70 group-hover:opacity-100 transition-opacity duration-700 animate-spin [animation-duration:8s] group-hover:[animation-duration:4s]"
+        style={{
+          background:
+            'conic-gradient(from 0deg, transparent 35%, hsl(var(--foreground) / 0.9) 50%, transparent 65%)',
+        }}
+      />
+      <div className="relative rounded-full bg-background/80 backdrop-blur-2xl border border-foreground/10 shadow-[inset_0_1px_1px_hsl(var(--foreground)/0.08),inset_0_-1px_1px_hsl(var(--background)/0.5),0_20px_50px_-15px_hsl(var(--background)/0.9)]">
+        {children}
+      </div>
+    </div>
+  );
+
   return (
-    <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'py-3' : 'py-6'}`}>
-      <div className="px-6 lg:px-10">
-        <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? 'glass rounded-full px-4 py-2.5 max-w-5xl mx-auto' : ''}`}>
-          <a href="#home" className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.3em]">
-            <span className="size-7 rounded-full border border-foreground/30 grid place-items-center text-[10px]">SA</span>
-            <span className="hidden sm:inline">Mr. Vortex</span>
-          </a>
-
-          <nav className="hidden md:flex items-center gap-7 font-mono text-[11px] uppercase tracking-[0.3em]">
-            {NAV.slice(1, -1).map((n) => (
-              <a key={n.href} href={n.href} className="text-muted-foreground hover:text-foreground transition-colors">
-                <span className="text-foreground/30 mr-1.5">{n.n}</span>{n.label}
+    <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'py-3' : 'py-5'}`}>
+      <div className="px-4 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <Shell>
+            <div className="flex items-center gap-2 md:gap-6 px-3 md:px-5 py-2 md:py-2.5">
+              {/* Brand */}
+              <a href="#home" className="flex items-center gap-3 pr-3 md:pr-5 md:border-r md:border-foreground/10">
+                <span className="size-8 rounded-full bg-foreground text-background grid place-items-center font-bold text-[10px] tracking-tighter shadow-[0_0_18px_hsl(var(--foreground)/0.25),inset_0_-1px_2px_hsl(var(--background)/0.2)]">
+                  SA
+                </span>
+                <span className="hidden sm:inline font-semibold text-[13px] uppercase tracking-[0.18em] select-none">
+                  Mr. Vortex
+                </span>
               </a>
-            ))}
-          </nav>
 
-          <div className="flex items-center gap-2">
-            <VortexThemeToggle />
-            <a
-              href="#contact"
-              className="hidden sm:inline-flex items-center gap-2 rounded-full glass px-4 py-2 font-mono text-[11px] uppercase tracking-[0.3em] hover:bg-foreground hover:text-background transition-colors"
-            >
-              Contact <ArrowRight className="size-3" />
-            </a>
-            <button
-              onClick={() => setOpen((v) => !v)}
-              className="md:hidden size-10 grid place-items-center rounded-full glass"
-              aria-label="Toggle menu"
-            >
-              <div className="flex flex-col gap-1.5">
-                <span className={`block h-px w-5 bg-foreground transition ${open ? 'translate-y-[7px] rotate-45' : ''}`} />
-                <span className={`block h-px w-5 bg-foreground transition ${open ? '-translate-y-[7px] -rotate-45' : ''}`} />
+              {/* Links */}
+              <nav className="hidden md:flex items-center gap-6 flex-1">
+                {links.map((n) => {
+                  const id = n.href.replace('#', '');
+                  const active = activeId === id;
+                  return (
+                    <a
+                      key={n.href}
+                      href={n.href}
+                      className={`relative flex items-center gap-1.5 transition-all duration-300 hover:scale-105 active:scale-95 ${
+                        active ? 'opacity-100' : 'opacity-50 hover:opacity-100'
+                      }`}
+                    >
+                      <span className="font-mono text-[9px] text-foreground/30">{n.n}</span>
+                      <span
+                        className={`text-[13px] font-medium ${
+                          active ? 'drop-shadow-[0_0_8px_hsl(var(--foreground)/0.25)]' : ''
+                        }`}
+                      >
+                        {n.label}
+                      </span>
+                      {active && (
+                        <motion.span
+                          layoutId="nav-dot"
+                          className="absolute -bottom-2 left-1/2 -translate-x-1/2 size-1 rounded-full bg-foreground shadow-[0_0_10px_hsl(var(--foreground)/0.9)] animate-pulse"
+                        />
+                      )}
+                    </a>
+                  );
+                })}
+              </nav>
+
+              {/* Actions */}
+              <div className="flex items-center gap-3 md:gap-4 md:pl-5 md:border-l md:border-foreground/10 ml-auto">
+                <VortexThemeToggle />
+                <a
+                  href="#contact"
+                  className="hidden sm:inline-flex items-center gap-2 rounded-full bg-foreground text-background px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_hsl(var(--foreground)/0.35)] transition-all"
+                >
+                  Contact <ArrowRight className="size-3" />
+                </a>
+                <button
+                  onClick={() => setOpen((v) => !v)}
+                  className="md:hidden size-9 grid place-items-center rounded-full border border-foreground/10"
+                  aria-label="Toggle menu"
+                >
+                  <div className="flex flex-col gap-1.5">
+                    <span className={`block h-px w-4 bg-foreground transition ${open ? 'translate-y-[7px] rotate-45' : ''}`} />
+                    <span className={`block h-px w-4 bg-foreground transition ${open ? '-translate-y-[7px] -rotate-45' : ''}`} />
+                  </div>
+                </button>
               </div>
-            </button>
-          </div>
+            </div>
+          </Shell>
         </div>
 
         <AnimatePresence>
           {open && (
             <motion.div
               initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-              className="md:hidden glass rounded-3xl mt-3 p-6 flex flex-col gap-4"
+              className="md:hidden glass rounded-3xl mt-3 p-6 flex flex-col gap-4 max-w-5xl mx-auto"
             >
               {NAV.map((n) => (
                 <a key={n.href} href={n.href} onClick={() => setOpen(false)} className="font-mono text-xs uppercase tracking-[0.3em] flex items-center gap-3">
@@ -1001,6 +1073,7 @@ function Header() {
     </header>
   );
 }
+
 
 /* ───────────────────────── PAGE ───────────────────────── */
 
