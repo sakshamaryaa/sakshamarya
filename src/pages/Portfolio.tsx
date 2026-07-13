@@ -565,7 +565,7 @@ function Skills() {
         <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {SKILL_CLUSTERS.map((c, i) => (
             <Reveal key={c.title} delay={0.1 + i * 0.08}>
-              <div className="group h-full p-7 rounded-2xl glass-card noise relative overflow-hidden">
+              <div className="group h-full p-7 rounded-2xl glass-card noise hover-lift relative overflow-hidden">
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
                      style={{ background: 'radial-gradient(400px circle at 50% 0%, hsl(var(--electric-blue)/0.12), transparent 60%)' }} />
                 <div className="relative">
