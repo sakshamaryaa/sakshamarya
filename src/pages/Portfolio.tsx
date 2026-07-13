@@ -12,6 +12,8 @@ import { VortexThemeToggle } from '@/components/vortex/ThemeToggle';
 import { Aurora } from '@/components/vortex/Aurora';
 import { CustomCursor } from '@/components/vortex/CustomCursor';
 import { Spotlight } from '@/components/vortex/Spotlight';
+import { SectionRail } from '@/components/vortex/SectionRail';
+import { SplitText } from '@/components/vortex/SplitText';
 import { toast } from 'sonner';
 import sakshamPortrait from '@/assets/saksham-train.jpg.asset.json';
 
