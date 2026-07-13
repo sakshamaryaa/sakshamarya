@@ -322,7 +322,7 @@ function Hero() {
 
         <Reveal delay={0.15}>
           <h1 className="display-xl mt-8 text-[clamp(3rem,10vw,10rem)] lg:max-w-[60%]">
-            <span className="block text-gradient">Saksham Arya</span>
+            <SplitText as="span" text="Saksham Arya" className="block text-gradient" delay={0.1} stagger={0.03} />
             <span className="block italic text-foreground/55 -mt-2 sm:-mt-4">aka Mr. Vortex</span>
           </h1>
         </Reveal>
