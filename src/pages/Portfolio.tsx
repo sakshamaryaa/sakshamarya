@@ -15,7 +15,7 @@ import { Spotlight } from '@/components/vortex/Spotlight';
 import { SectionRail } from '@/components/vortex/SectionRail';
 import { SplitText } from '@/components/vortex/SplitText';
 import { toast } from 'sonner';
-import sakshamPortrait from '@/assets/saksham-train.jpg.asset.json';
+import sakshamPortrait from '@/assets/saksham-train.jpg';
 
 /* ───────────────────────── DATA ───────────────────────── */
 
@@ -263,7 +263,7 @@ function Hero() {
           }}
         >
           <motion.img
-            src={sakshamPortrait.url}
+            src={sakshamPortrait}
             alt="Saksham Arya looking out a train window"
             initial={{ scale: 1.05 }}
             animate={{ scale: [1.05, 1.15, 1.05] }}
@@ -321,8 +321,8 @@ function Hero() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <h1 className="display-xl mt-8 text-[clamp(3rem,10vw,10rem)] lg:max-w-[60%]">
-            <SplitText as="span" text="Saksham Arya" className="block text-gradient" delay={0.1} stagger={0.03} />
+          <h1 className="display-xl mt-8 text-[clamp(3rem,10vw,10rem)] leading-[0.95] lg:max-w-[60%]">
+            <span className="block text-gradient">Saksham Arya</span>
             <span className="block italic text-foreground/55 -mt-2 sm:-mt-4">aka Mr. Vortex</span>
           </h1>
         </Reveal>
