@@ -723,7 +723,7 @@ function Leadership() {
         <div className="mt-16 grid md:grid-cols-3 gap-6">
           {LEADERSHIP.map((l, i) => (
             <Reveal key={l.title} delay={0.1 + i * 0.1}>
-              <div className="h-full p-8 rounded-2xl glass-card noise relative overflow-hidden">
+              <div className="h-full p-8 rounded-2xl glass-card noise hover-lift gradient-border relative overflow-hidden">
                 <Spotlight size={400} color="hsl(var(--aurora-purple) / 0.18)" />
                 <div className="relative">
                   <div className="size-10 rounded-xl glass grid place-items-center mb-6">
