@@ -891,7 +891,7 @@ function ContactCard({ href, icon: Icon, title, sub }: { href: string; icon: Rea
     <a
       href={href}
       target="_blank" rel="noopener noreferrer"
-      className="group flex items-center gap-5 p-5 rounded-2xl glass-card noise hover:translate-x-1 transition-transform"
+      className="group flex items-center gap-5 p-5 rounded-2xl glass-card noise hover-lift sheen hover:translate-x-1 transition-transform"
     >
       <div className="size-12 rounded-xl glass grid place-items-center">
         <Icon className="size-5" />
