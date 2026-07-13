@@ -12,6 +12,8 @@ import { VortexThemeToggle } from '@/components/vortex/ThemeToggle';
 import { Aurora } from '@/components/vortex/Aurora';
 import { CustomCursor } from '@/components/vortex/CustomCursor';
 import { Spotlight } from '@/components/vortex/Spotlight';
+import { SectionRail } from '@/components/vortex/SectionRail';
+import { SplitText } from '@/components/vortex/SplitText';
 import { toast } from 'sonner';
 import sakshamPortrait from '@/assets/saksham-train.jpg.asset.json';
 
@@ -320,7 +322,7 @@ function Hero() {
 
         <Reveal delay={0.15}>
           <h1 className="display-xl mt-8 text-[clamp(3rem,10vw,10rem)] lg:max-w-[60%]">
-            <span className="block text-gradient">Saksham Arya</span>
+            <SplitText as="span" text="Saksham Arya" className="block text-gradient" delay={0.1} stagger={0.03} />
             <span className="block italic text-foreground/55 -mt-2 sm:-mt-4">aka Mr. Vortex</span>
           </h1>
         </Reveal>
@@ -563,7 +565,7 @@ function Skills() {
         <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {SKILL_CLUSTERS.map((c, i) => (
             <Reveal key={c.title} delay={0.1 + i * 0.08}>
-              <div className="group h-full p-7 rounded-2xl glass-card noise relative overflow-hidden">
+              <div className="group h-full p-7 rounded-2xl glass-card noise hover-lift relative overflow-hidden">
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
                      style={{ background: 'radial-gradient(400px circle at 50% 0%, hsl(var(--electric-blue)/0.12), transparent 60%)' }} />
                 <div className="relative">
@@ -629,7 +631,7 @@ function ProjectShowcase({ project, index }: { project: Project; index: number }
       initial={{ opacity: 0, y: 60 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative rounded-3xl overflow-hidden glass-card noise"
+      className="group relative rounded-3xl overflow-hidden glass-card noise hover-lift gradient-border sheen"
     >
       <Spotlight size={500} color={`${project.accent.replace(')', ' / 0.20)')}`} />
 
@@ -721,7 +723,7 @@ function Leadership() {
         <div className="mt-16 grid md:grid-cols-3 gap-6">
           {LEADERSHIP.map((l, i) => (
             <Reveal key={l.title} delay={0.1 + i * 0.1}>
-              <div className="h-full p-8 rounded-2xl glass-card noise relative overflow-hidden">
+              <div className="h-full p-8 rounded-2xl glass-card noise hover-lift gradient-border relative overflow-hidden">
                 <Spotlight size={400} color="hsl(var(--aurora-purple) / 0.18)" />
                 <div className="relative">
                   <div className="size-10 rounded-xl glass grid place-items-center mb-6">
@@ -889,7 +891,7 @@ function ContactCard({ href, icon: Icon, title, sub }: { href: string; icon: Rea
     <a
       href={href}
       target="_blank" rel="noopener noreferrer"
-      className="group flex items-center gap-5 p-5 rounded-2xl glass-card noise hover:translate-x-1 transition-transform"
+      className="group flex items-center gap-5 p-5 rounded-2xl glass-card noise hover-lift sheen hover:translate-x-1 transition-transform"
     >
       <div className="size-12 rounded-xl glass grid place-items-center">
         <Icon className="size-5" />
@@ -1085,6 +1087,7 @@ export default function Portfolio() {
       <Aurora />
       <CustomCursor />
       <Header />
+      <SectionRail />
 
       <main className="relative">
         <Hero />
