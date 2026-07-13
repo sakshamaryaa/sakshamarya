@@ -15,7 +15,7 @@ import { Spotlight } from '@/components/vortex/Spotlight';
 import { SectionRail } from '@/components/vortex/SectionRail';
 import { SplitText } from '@/components/vortex/SplitText';
 import { toast } from 'sonner';
-import sakshamPortrait from '@/assets/saksham-train.jpg.asset.json';
+import sakshamPortrait from '@/assets/saksham-train.jpg';
 
 /* ───────────────────────── DATA ───────────────────────── */
 
