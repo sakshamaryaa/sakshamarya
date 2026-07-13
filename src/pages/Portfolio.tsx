@@ -631,7 +631,7 @@ function ProjectShowcase({ project, index }: { project: Project; index: number }
       initial={{ opacity: 0, y: 60 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative rounded-3xl overflow-hidden glass-card noise"
+      className="group relative rounded-3xl overflow-hidden glass-card noise hover-lift gradient-border sheen"
     >
       <Spotlight size={500} color={`${project.accent.replace(')', ' / 0.20)')}`} />
 
