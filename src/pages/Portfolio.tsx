@@ -263,7 +263,7 @@ function Hero() {
           }}
         >
           <motion.img
-            src={sakshamPortrait.url}
+            src={sakshamPortrait}
             alt="Saksham Arya looking out a train window"
             initial={{ scale: 1.05 }}
             animate={{ scale: [1.05, 1.15, 1.05] }}
