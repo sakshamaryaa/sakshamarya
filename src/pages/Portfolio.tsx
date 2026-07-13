@@ -1087,6 +1087,7 @@ export default function Portfolio() {
       <Aurora />
       <CustomCursor />
       <Header />
+      <SectionRail />
 
       <main className="relative">
         <Hero />
