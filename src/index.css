@@ -5,35 +5,35 @@
    Near-black graphite + deep navy + electric blue + aurora purple. */
 
 :root {
-  /* Occult Violet — deep void with iridescent purple glow */
-  --background: 258 45% 4%;
-  --foreground: 270 25% 96%;
-  --card: 260 40% 7%;
-  --card-foreground: 270 25% 96%;
-  --popover: 260 40% 7%;
-  --popover-foreground: 270 25% 96%;
-  --primary: 258 90% 76%;
-  --primary-foreground: 258 45% 4%;
-  --secondary: 260 30% 12%;
-  --secondary-foreground: 270 25% 96%;
-  --muted: 260 25% 14%;
-  --muted-foreground: 268 15% 68%;
+  /* Editorial near-black, not pure black */
+  --background: 222 28% 5%;
+  --foreground: 40 20% 96%;
+  --card: 222 24% 7%;
+  --card-foreground: 40 20% 96%;
+  --popover: 222 24% 7%;
+  --popover-foreground: 40 20% 96%;
+  --primary: 220 96% 64%;
+  --primary-foreground: 222 28% 5%;
+  --secondary: 222 18% 11%;
+  --secondary-foreground: 40 20% 96%;
+  --muted: 222 16% 13%;
+  --muted-foreground: 220 10% 62%;
   --accent: 268 84% 72%;
-  --accent-foreground: 258 45% 4%;
+  --accent-foreground: 222 28% 5%;
   --destructive: 0 70% 55%;
-  --destructive-foreground: 270 25% 96%;
-  --border: 265 30% 18%;
-  --input: 265 30% 18%;
-  --ring: 258 90% 76%;
+  --destructive-foreground: 40 20% 96%;
+  --border: 220 14% 16%;
+  --input: 220 14% 16%;
+  --ring: 220 96% 64%;
   --radius: 1.25rem;
 
-  /* Occult brand tokens */
-  --graphite: 260 30% 10%;
-  --navy-deep: 265 60% 12%;
-  --electric-blue: 258 90% 72%;
-  --aurora-purple: 268 90% 72%;
-  --aurora-cyan: 275 70% 78%;
-  --aurora-pink: 300 70% 72%;
+  /* Editorial brand — graphite, navy, electric blue, aurora */
+  --graphite: 222 18% 12%;
+  --navy-deep: 222 60% 12%;
+  --electric-blue: 220 96% 64%;
+  --aurora-purple: 268 84% 72%;
+  --aurora-cyan: 188 88% 64%;
+  --aurora-pink: 320 70% 70%;
 
   --gradient-aurora: radial-gradient(60% 80% at 20% 30%, hsl(var(--aurora-purple) / 0.28), transparent 60%),
                      radial-gradient(50% 70% at 80% 20%, hsl(var(--electric-blue) / 0.22), transparent 60%),
