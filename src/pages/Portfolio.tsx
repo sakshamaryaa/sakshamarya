@@ -1084,10 +1084,11 @@ function Header() {
 
 export default function Portfolio() {
   return (
-    <>
+    <SoundProvider>
       <LoadingScreen />
       <ScrollProgress />
       <Aurora />
+      <WebGLWorld />
       <CustomCursor />
       <Header />
       <SectionRail />
@@ -1105,6 +1106,6 @@ export default function Portfolio() {
       </main>
 
       <Footer />
-    </>
+    </SoundProvider>
   );
 }
