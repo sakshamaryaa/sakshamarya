@@ -14,6 +14,8 @@ import { CustomCursor } from '@/components/vortex/CustomCursor';
 import { Spotlight } from '@/components/vortex/Spotlight';
 import { SectionRail } from '@/components/vortex/SectionRail';
 import { SplitText } from '@/components/vortex/SplitText';
+import { SoundProvider, SoundToggle } from '@/components/vortex/SoundManager';
+import { WebGLWorld } from '@/components/vortex/WebGLWorld';
 import { toast } from 'sonner';
 import sakshamPortrait from '@/assets/saksham-train.jpg';
 
@@ -1035,6 +1037,7 @@ function Header() {
 
               {/* Actions */}
               <div className="flex items-center gap-3 md:gap-4 md:pl-5 md:border-l md:border-foreground/10 ml-auto">
+                <SoundToggle />
                 <VortexThemeToggle />
                 <a
                   href="#contact"
@@ -1081,10 +1084,11 @@ function Header() {
 
 export default function Portfolio() {
   return (
-    <>
+    <SoundProvider>
       <LoadingScreen />
       <ScrollProgress />
       <Aurora />
+      <WebGLWorld />
       <CustomCursor />
       <Header />
       <SectionRail />
@@ -1102,6 +1106,6 @@ export default function Portfolio() {
       </main>
 
       <Footer />
-    </>
+    </SoundProvider>
   );
 }
