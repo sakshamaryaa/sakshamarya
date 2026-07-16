@@ -1035,6 +1035,7 @@ function Header() {
 
               {/* Actions */}
               <div className="flex items-center gap-3 md:gap-4 md:pl-5 md:border-l md:border-foreground/10 ml-auto">
+                <SoundToggle />
                 <VortexThemeToggle />
                 <a
                   href="#contact"
