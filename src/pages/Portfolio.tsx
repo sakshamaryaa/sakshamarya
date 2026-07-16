@@ -9,7 +9,7 @@ import { LoadingScreen } from '@/components/vortex/LoadingScreen';
 import { ScrollProgress } from '@/components/vortex/ScrollProgress';
 import { MagneticButton } from '@/components/vortex/MagneticButton';
 import { VortexThemeToggle } from '@/components/vortex/ThemeToggle';
-import { Aurora } from '@/components/vortex/Aurora';
+import { Scene } from '@/three/Scene';
 import { CustomCursor } from '@/components/vortex/CustomCursor';
 import { Spotlight } from '@/components/vortex/Spotlight';
 import { SectionRail } from '@/components/vortex/SectionRail';
@@ -1084,7 +1084,7 @@ export default function Portfolio() {
     <>
       <LoadingScreen />
       <ScrollProgress />
-      <Aurora />
+      <Scene />
       <CustomCursor />
       <Header />
       <SectionRail />
