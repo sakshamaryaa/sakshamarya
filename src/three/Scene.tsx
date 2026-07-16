@@ -33,9 +33,9 @@ function FragmentedPortrait({ progressRef }: { progressRef: React.MutableRefObje
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const texture = useLoader(THREE.TextureLoader, portraitUrl);
 
-  // portrait aspect roughly 3:4 (portrait). We'll scale grid to fit ~4x5 world units.
-  const gridW = 4;
-  const gridH = 5;
+  // portrait aspect roughly 3:4 (portrait). Kept small so it feels distant and mysterious.
+  const gridW = 2.6;
+  const gridH = 3.3;
   const cellW = gridW / COLS;
   const cellH = gridH / ROWS;
 
@@ -55,11 +55,11 @@ function FragmentedPortrait({ progressRef }: { progressRef: React.MutableRefObje
       const tx = (col - (COLS - 1) / 2) * cellW;
       const ty = ((ROWS - 1) / 2 - row) * cellH;
       arr.push({
-        target: new THREE.Vector3(tx, ty, 0),
+        target: new THREE.Vector3(tx + 2.2, ty, -2.5),
         scatter: new THREE.Vector3(
-          (Math.random() - 0.5) * 14,
-          (Math.random() - 0.5) * 10,
-          (Math.random() - 0.5) * 8 - 2,
+          (Math.random() - 0.5) * 16,
+          (Math.random() - 0.5) * 12,
+          (Math.random() - 0.5) * 10 - 4,
         ),
         dissolve: new THREE.Vector3(
           (Math.random() - 0.5) * 22,
@@ -100,6 +100,7 @@ function FragmentedPortrait({ progressRef }: { progressRef: React.MutableRefObje
     const mat = new THREE.MeshBasicMaterial({
       map: texture,
       transparent: true,
+      opacity: 0.85,
       side: THREE.DoubleSide,
       toneMapped: false,
     });
@@ -142,9 +143,9 @@ function FragmentedPortrait({ progressRef }: { progressRef: React.MutableRefObje
     const p = progressRef.current;
     const t = state.clock.elapsedTime;
 
-    // Two lerp phases: 0..0.18 scatter→assembled, 0.28..0.55 assembled→dissolve
-    const assemble = THREE.MathUtils.smoothstep(p, 0.0, 0.2);
-    const dissolve = THREE.MathUtils.smoothstep(p, 0.3, 0.6);
+    // Two lerp phases: scatter→assembled by 0.15, then dissolve by 0.35
+    const assemble = THREE.MathUtils.smoothstep(p, 0.0, 0.15);
+    const dissolve = THREE.MathUtils.smoothstep(p, 0.18, 0.38);
 
     for (let i = 0; i < COUNT; i++) {
       const s = seeds[i];
