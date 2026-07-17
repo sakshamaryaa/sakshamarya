@@ -243,77 +243,91 @@ function Hero() {
         <span className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> Online</span>
       </div>
 
-      {/* Portrait — right 55-60% with soft mask & ambient glow */}
+      {/* Portrait — right 55-60% with soft mask & ambient glow, as floating 3D plane */}
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[60%] overflow-hidden"
+        className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[60%]"
       >
-        {/* ambient glow */}
-        <div
-          className="absolute -inset-20 opacity-70"
-          style={{
-            background:
-              'radial-gradient(60% 55% at 60% 45%, hsl(217 91% 60% / 0.35), transparent 70%), radial-gradient(50% 50% at 75% 70%, hsl(280 85% 65% / 0.28), transparent 75%)',
-            filter: 'blur(40px)',
-          }}
-        />
-        {/* image with ken burns + parallax */}
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0)`,
-            transition: 'transform 400ms cubic-bezier(0.22, 1, 0.36, 1)',
-          }}
+        <Plane3D
+          max={14}
+          lift={40}
+          glare
+          className="pointer-events-auto relative h-full w-full overflow-hidden rounded-none"
         >
-          <motion.img
-            src={sakshamPortrait}
-            alt="Saksham Arya looking out a train window"
-            initial={{ scale: 1.05 }}
-            animate={{ scale: [1.05, 1.15, 1.05] }}
-            transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute inset-0 h-full w-full object-cover object-[60%_center] opacity-[0.92] lg:opacity-100"
+          {/* ambient glow — furthest back */}
+          <div
+            data-depth
+            style={{ ['--depth' as any]: -30 }}
+            className="absolute -inset-20 opacity-70"
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'radial-gradient(60% 55% at 60% 45%, hsl(217 91% 60% / 0.4), transparent 70%), radial-gradient(50% 50% at 75% 70%, hsl(280 85% 65% / 0.32), transparent 75%)',
+                filter: 'blur(40px)',
+              }}
+            />
+          </div>
+
+          {/* image with ken burns — mid depth */}
+          <div
+            data-depth
+            style={{ ['--depth' as any]: 20 }}
+            className="absolute inset-0"
+          >
+            <motion.img
+              src={sakshamPortrait}
+              alt="Saksham Arya looking out a train window"
+              initial={{ scale: 1.05 }}
+              animate={{ scale: [1.05, 1.15, 1.05] }}
+              transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute inset-0 h-full w-full object-cover object-[60%_center] opacity-[0.92] lg:opacity-100"
+              style={{
+                WebkitMaskImage:
+                  'radial-gradient(120% 90% at 75% 50%, black 35%, transparent 78%), linear-gradient(to left, black 55%, transparent 100%)',
+                maskImage:
+                  'radial-gradient(120% 90% at 75% 50%, black 35%, transparent 78%), linear-gradient(to left, black 55%, transparent 100%)',
+                WebkitMaskComposite: 'source-in',
+                maskComposite: 'intersect',
+              }}
+            />
+          </div>
+
+          {/* gradient blends into background */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent lg:via-background/40" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
+          {/* subtle blue/purple wash */}
+          <div
+            className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-50"
             style={{
-              WebkitMaskImage:
-                'radial-gradient(120% 90% at 75% 50%, black 35%, transparent 78%), linear-gradient(to left, black 55%, transparent 100%)',
-              maskImage:
-                'radial-gradient(120% 90% at 75% 50%, black 35%, transparent 78%), linear-gradient(to left, black 55%, transparent 100%)',
-              WebkitMaskComposite: 'source-in',
-              maskComposite: 'intersect',
+              background:
+                'linear-gradient(135deg, hsl(217 91% 60% / 0.25), transparent 50%, hsl(280 85% 65% / 0.2))',
             }}
           />
-        </motion.div>
 
-        {/* gradient blends into background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent lg:via-background/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
-        {/* subtle blue/purple wash */}
-        <div
-          className="absolute inset-0 mix-blend-overlay opacity-50"
-          style={{
-            background:
-              'linear-gradient(135deg, hsl(217 91% 60% / 0.25), transparent 50%, hsl(280 85% 65% / 0.2))',
-          }}
-        />
-
-        {/* Glass status card — lower-right over image */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4, duration: 0.8 }}
-          className="pointer-events-auto absolute bottom-10 right-6 lg:right-10 max-w-[280px] glass rounded-2xl p-5 backdrop-blur-xl border border-white/10"
-        >
-          <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-3">
-            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Current Journey
-          </div>
-          <p className="font-display italic text-base leading-snug text-foreground/90">
-            "Building ideas into reality."
-          </p>
-          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-            Learning · Building · Innovating
-          </p>
-        </motion.div>
+          {/* Glass status card — foreground */}
+          <motion.div
+            data-depth
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.4, duration: 0.8 }}
+            style={{ ['--depth' as any]: 60 }}
+            className="pointer-events-auto absolute bottom-10 right-6 lg:right-10 max-w-[280px] glass rounded-2xl p-5 backdrop-blur-xl border border-white/10"
+          >
+            <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-3">
+              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Current Journey
+            </div>
+            <p className="font-display italic text-base leading-snug text-foreground/90">
+              "Building ideas into reality."
+            </p>
+            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+              Learning · Building · Innovating
+            </p>
+          </motion.div>
+        </Plane3D>
       </div>
+
 
       <motion.div
         style={{ y, opacity }}
