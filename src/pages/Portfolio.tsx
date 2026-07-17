@@ -217,20 +217,6 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  // Mouse parallax
-  const [parallax, setParallax] = useState({ x: 0, y: 0 });
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      setParallax({
-        x: ((e.clientX - cx) / cx) * 14,
-        y: ((e.clientY - cy) / cy) * 14,
-      });
-    };
-    window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, []);
 
   return (
     <section id="home" ref={ref} className="relative min-h-[100svh] overflow-hidden">
