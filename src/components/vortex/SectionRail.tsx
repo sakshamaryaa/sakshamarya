@@ -80,6 +80,7 @@ export function SectionRail() {
           </a>
         );
       })}
+      </Plane3D>
     </motion.aside>
   );
 }
