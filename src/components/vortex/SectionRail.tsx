@@ -50,6 +50,8 @@ export function SectionRail() {
           <a
             key={s.id}
             href={`#${s.id}`}
+            data-depth
+            style={{ ['--depth' as any]: isActive ? 22 : 6 }}
             className="group flex items-center gap-3 pointer-events-auto"
           >
             <AnimatePresence>
