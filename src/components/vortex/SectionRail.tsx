@@ -40,9 +40,10 @@ export function SectionRail() {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 1.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col items-end gap-4 pointer-events-none"
-      aria-hidden
+      className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:block pointer-events-none"
     >
+      <Plane3D max={8} lift={12} glare={false} className="pointer-events-auto flex flex-col items-end gap-4 px-3 py-4 rounded-2xl glass border border-white/10 backdrop-blur-md">
+
       {SECTIONS.map((s) => {
         const isActive = active === s.id;
         return (
