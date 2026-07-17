@@ -43,6 +43,6 @@ export function SplitText({
           {wi < words.length - 1 && <span className="inline-block">&nbsp;</span>}
         </span>
       ))}
-    </Tag>
+    </TagAny>
   );
 }
