@@ -16,6 +16,7 @@ import { SectionRail } from '@/components/vortex/SectionRail';
 import { SplitText } from '@/components/vortex/SplitText';
 import { SoundProvider, SoundToggle } from '@/components/vortex/SoundManager';
 import { WebGLWorld } from '@/components/vortex/WebGLWorld';
+import { Plane3D } from '@/components/vortex/Plane3D';
 import { toast } from 'sonner';
 import sakshamPortrait from '@/assets/saksham-train.jpg';
 
