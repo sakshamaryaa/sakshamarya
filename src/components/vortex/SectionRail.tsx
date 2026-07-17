@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Plane3D } from './Plane3D';
 
 const SECTIONS = [
   { id: 'home', label: 'Index', n: '00' },
