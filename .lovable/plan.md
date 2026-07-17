@@ -1,37 +1,67 @@
-# Navbar Refinement — Futuristic Glass Pill v4
+## Goal
 
-Only the `Header` component in `src/pages/Portfolio.tsx` changes. No other sections, no routing, no data changes.
+Kill the busy WebGL orbit scene and give the site a calmer backdrop, then make key UI elements feel physically layered with a pronounced (but still tasteful) 3D tilt + parallax treatment.
 
-## Visual direction (selected)
+## 1. Background — replace orbit with subtle starfield
 
-- Slim glass pill, always in the pill state (drop the "wider on top / shrink on scroll" toggle in favor of one refined pill that just gets a stronger shadow after scroll).
-- Rotating conic-gradient hairline border around the pill (slow 6s spin, speeds to 3s on hover).
-- Inner pill: near-black `#080808/85` with heavy backdrop blur, inset highlight on top edge, inset shadow on bottom.
-- Left cluster: white monogram chip `SA` (black text, soft white glow) + `MR. VORTEX` wordmark, separated from links by a hairline divider.
-- Center: 5 numbered links (`01 About` … `05 Vision`). Mono numerals in `text-foreground/30`, label in `text-foreground`. Inactive links at `opacity-50`; active link full opacity with a small pulsing dot indicator underneath.
-- Right cluster: theme toggle + white pill "CONTACT" CTA (black text, subtle glow on hover), hairline divider on the left.
-- Hover on any link: `scale-105`, opacity → 100, mono numeral brightens. Active tap: `scale-95`.
+Rewrite `src/components/vortex/WebGLWorld.tsx` (keeping the same export so `App.tsx` needs no change) to render only:
 
-## Active section behavior
+- Deep space background color + fog
+- A single wide `Starfield` (~2000 points, small size, slow y-rotation)
+- Very gentle scroll + mouse parallax on the camera (much smaller amplitude than today — no z-dolly)
 
-- Track the currently visible section via a scrollspy (IntersectionObserver on `#about`, `#journey`, `#skills`, `#work`, `#vision`, root margin tuned so a section becomes active when it crosses ~40% viewport).
-- Apply the "active" styling (full opacity + pulsing dot) to the link whose href matches the active section id. On page top, `#about` is active.
+Remove: `Core` (distortion icosahedron), `Shards` group, `Halo` torus, `Environment` preset, extra directional lights. Keep one ambient light. This drops GPU cost significantly and removes the "orbit" feel.
 
-## Mobile
+## 2. Reusable "3D plane" primitive
 
-- Below `md`, keep the current hamburger button but restyle its container to match the new pill (same border-gradient wrapper, same inner surface).
-- Mobile drawer already exists further down in `Header`; keep its behavior, just update its container styles to match.
+Add `src/components/vortex/Plane3D.tsx` — a cinematic wrapper built on framer-motion springs:
 
-## Implementation notes (technical)
+- Pointer-tracked `rotateX` / `rotateY` up to **±14°**
+- `translateZ` lift on hover (~30px) with layered drop shadow for depth
+- Cursor-following **glare sweep** (radial gradient, mix-blend-overlay)
+- Optional `parallaxLayers` prop: children marked `data-depth="0.2 | 0.5 | 1"` translate on Z proportionally so foreground content pops off the card
+- Scroll-linked subtle Y parallax (via `useScroll` + `useTransform`) so the plane drifts as it enters/exits the viewport
+- `prefers-reduced-motion` → disables tilt + parallax
 
-- File: `src/pages/Portfolio.tsx`, `Header` component (lines ~939–1000 area).
-- Add a new keyframe `spin-slow` and `pulse-dot` in `src/index.css` (or reuse existing `animate-pulse` and Tailwind's built-in `animate-spin` with an arbitrary duration via `[animation-duration:6s]`). Prefer arbitrary values to avoid touching config.
-- Conic gradient border: wrapper `div` with `p-[1px] rounded-full overflow-hidden`, absolute child with `bg-[conic-gradient(from_0deg,transparent_40%,hsl(var(--foreground))_50%,transparent_60%)] animate-spin [animation-duration:6s]`, sized `inset-[-200%]` so the sweep is visible.
-- Keep using existing semantic tokens (`foreground`, `background`, `muted-foreground`) — no hardcoded `#fff` / `#000`. The prototype's `bg-white` becomes `bg-foreground`, `text-black` becomes `text-background`, etc.
-- Keep `VortexThemeToggle` and the existing `#contact` anchor; just restyle the wrapper.
-- Scrollspy via `useEffect` + `IntersectionObserver`; store `activeId` in state; pass to link render.
+This replaces the lighter `TiltCard` at the call sites we touch (TiltCard itself stays for other usages).
 
-## Out of scope
+## 3. Apply to hero portrait
 
-- No changes to nav item list, brand, routes, or any other section.
-- No new dependencies.
+In `src/pages/Portfolio.tsx` Hero:
+
+- Wrap the portrait image + its gradient mask in `Plane3D` (pronounced preset)
+- Split into depth layers: ambient blue/purple glow at depth `0.2`, portrait image at depth `0.6`, gradient mask overlay at depth `1.0`
+- Keep the existing Ken Burns scale animation inside the portrait layer
+- Add a soft grounded shadow beneath the card that scales with tilt
+
+## 4. Apply to project cards
+
+For each project card in the Work section:
+
+- Wrap the card in `Plane3D`
+- Depth layers inside: cover image (depth 0.3), title/meta text (depth 0.8), corner index number (depth 1.0)
+- Hover: card lifts, glare sweeps, shadow deepens
+- Preserve existing entrance reveal animations
+
+## 5. Apply to section rail
+
+`src/components/vortex/SectionRail.tsx`:
+
+- Wrap the rail column in a light `Plane3D` variant (tilt only, no glare, ~6° max) so the rail feels attached to a floating panel
+- Active indicator gets a small `translateZ` bump for depth
+- On hover of a rail item, that row lifts slightly in Z
+
+## 6. Verification
+
+After build:
+- Playwright screenshot of hero (idle + cursor top-right) to confirm tilt + glare
+- Screenshot of Work section hovering one card to confirm depth lift
+- Confirm no orbit shards/core visible in background — only stars
+- Check console for r3f/three warnings
+
+## Technical notes
+
+- No new dependencies — framer-motion + existing r3f/drei are enough
+- Reduced-motion guard added in `Plane3D`
+- All tilt math uses springs (`stiffness: 200, damping: 20`) for smooth return
+- `transform-style: preserve-3d` + `perspective: 1200px` on Plane3D root; children opt into depth via `data-depth`

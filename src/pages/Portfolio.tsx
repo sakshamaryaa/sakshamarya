@@ -16,6 +16,7 @@ import { SectionRail } from '@/components/vortex/SectionRail';
 import { SplitText } from '@/components/vortex/SplitText';
 import { SoundProvider, SoundToggle } from '@/components/vortex/SoundManager';
 import { WebGLWorld } from '@/components/vortex/WebGLWorld';
+import { Plane3D } from '@/components/vortex/Plane3D';
 import { toast } from 'sonner';
 import sakshamPortrait from '@/assets/saksham-train.jpg';
 
@@ -216,20 +217,6 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  // Mouse parallax
-  const [parallax, setParallax] = useState({ x: 0, y: 0 });
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      setParallax({
-        x: ((e.clientX - cx) / cx) * 14,
-        y: ((e.clientY - cy) / cy) * 14,
-      });
-    };
-    window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, []);
 
   return (
     <section id="home" ref={ref} className="relative min-h-[100svh] overflow-hidden">
@@ -242,77 +229,91 @@ function Hero() {
         <span className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> Online</span>
       </div>
 
-      {/* Portrait — right 55-60% with soft mask & ambient glow */}
+      {/* Portrait — right 55-60% with soft mask & ambient glow, as floating 3D plane */}
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[60%] overflow-hidden"
+        className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[60%]"
       >
-        {/* ambient glow */}
-        <div
-          className="absolute -inset-20 opacity-70"
-          style={{
-            background:
-              'radial-gradient(60% 55% at 60% 45%, hsl(217 91% 60% / 0.35), transparent 70%), radial-gradient(50% 50% at 75% 70%, hsl(280 85% 65% / 0.28), transparent 75%)',
-            filter: 'blur(40px)',
-          }}
-        />
-        {/* image with ken burns + parallax */}
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0)`,
-            transition: 'transform 400ms cubic-bezier(0.22, 1, 0.36, 1)',
-          }}
+        <Plane3D
+          max={14}
+          lift={40}
+          glare
+          className="pointer-events-auto relative h-full w-full overflow-hidden rounded-none"
         >
-          <motion.img
-            src={sakshamPortrait}
-            alt="Saksham Arya looking out a train window"
-            initial={{ scale: 1.05 }}
-            animate={{ scale: [1.05, 1.15, 1.05] }}
-            transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute inset-0 h-full w-full object-cover object-[60%_center] opacity-[0.92] lg:opacity-100"
+          {/* ambient glow — furthest back */}
+          <div
+            data-depth
+            style={{ ['--depth' as any]: -30 }}
+            className="absolute -inset-20 opacity-70"
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'radial-gradient(60% 55% at 60% 45%, hsl(217 91% 60% / 0.4), transparent 70%), radial-gradient(50% 50% at 75% 70%, hsl(280 85% 65% / 0.32), transparent 75%)',
+                filter: 'blur(40px)',
+              }}
+            />
+          </div>
+
+          {/* image with ken burns — mid depth */}
+          <div
+            data-depth
+            style={{ ['--depth' as any]: 20 }}
+            className="absolute inset-0"
+          >
+            <motion.img
+              src={sakshamPortrait}
+              alt="Saksham Arya looking out a train window"
+              initial={{ scale: 1.05 }}
+              animate={{ scale: [1.05, 1.15, 1.05] }}
+              transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute inset-0 h-full w-full object-cover object-[60%_center] opacity-[0.92] lg:opacity-100"
+              style={{
+                WebkitMaskImage:
+                  'radial-gradient(120% 90% at 75% 50%, black 35%, transparent 78%), linear-gradient(to left, black 55%, transparent 100%)',
+                maskImage:
+                  'radial-gradient(120% 90% at 75% 50%, black 35%, transparent 78%), linear-gradient(to left, black 55%, transparent 100%)',
+                WebkitMaskComposite: 'source-in',
+                maskComposite: 'intersect',
+              }}
+            />
+          </div>
+
+          {/* gradient blends into background */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent lg:via-background/40" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
+          {/* subtle blue/purple wash */}
+          <div
+            className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-50"
             style={{
-              WebkitMaskImage:
-                'radial-gradient(120% 90% at 75% 50%, black 35%, transparent 78%), linear-gradient(to left, black 55%, transparent 100%)',
-              maskImage:
-                'radial-gradient(120% 90% at 75% 50%, black 35%, transparent 78%), linear-gradient(to left, black 55%, transparent 100%)',
-              WebkitMaskComposite: 'source-in',
-              maskComposite: 'intersect',
+              background:
+                'linear-gradient(135deg, hsl(217 91% 60% / 0.25), transparent 50%, hsl(280 85% 65% / 0.2))',
             }}
           />
-        </motion.div>
 
-        {/* gradient blends into background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent lg:via-background/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
-        {/* subtle blue/purple wash */}
-        <div
-          className="absolute inset-0 mix-blend-overlay opacity-50"
-          style={{
-            background:
-              'linear-gradient(135deg, hsl(217 91% 60% / 0.25), transparent 50%, hsl(280 85% 65% / 0.2))',
-          }}
-        />
-
-        {/* Glass status card — lower-right over image */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4, duration: 0.8 }}
-          className="pointer-events-auto absolute bottom-10 right-6 lg:right-10 max-w-[280px] glass rounded-2xl p-5 backdrop-blur-xl border border-white/10"
-        >
-          <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-3">
-            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Current Journey
-          </div>
-          <p className="font-display italic text-base leading-snug text-foreground/90">
-            "Building ideas into reality."
-          </p>
-          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-            Learning · Building · Innovating
-          </p>
-        </motion.div>
+          {/* Glass status card — foreground */}
+          <motion.div
+            data-depth
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.4, duration: 0.8 }}
+            style={{ ['--depth' as any]: 60 }}
+            className="pointer-events-auto absolute bottom-10 right-6 lg:right-10 max-w-[280px] glass rounded-2xl p-5 backdrop-blur-xl border border-white/10"
+          >
+            <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-3">
+              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Current Journey
+            </div>
+            <p className="font-display italic text-base leading-snug text-foreground/90">
+              "Building ideas into reality."
+            </p>
+            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+              Learning · Building · Innovating
+            </p>
+          </motion.div>
+        </Plane3D>
       </div>
+
 
       <motion.div
         style={{ y, opacity }}
@@ -633,81 +634,123 @@ function ProjectShowcase({ project, index }: { project: Project; index: number }
       initial={{ opacity: 0, y: 60 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative rounded-3xl overflow-hidden glass-card noise hover-lift gradient-border sheen"
+      className="group relative"
     >
-      <Spotlight size={500} color={`${project.accent.replace(')', ' / 0.20)')}`} />
+      <Plane3D
+        max={12}
+        lift={26}
+        glare
+        className="rounded-3xl overflow-hidden glass-card noise gradient-border sheen"
+      >
+        <Spotlight size={500} color={`${project.accent.replace(')', ' / 0.20)')}`} />
 
-      <div className={`relative grid lg:grid-cols-12 gap-0 ${reverse ? 'lg:[&>*:first-child]:order-2' : ''}`}>
-        {/* Visual */}
-        <div className="lg:col-span-7 aspect-[16/10] lg:aspect-auto relative overflow-hidden border-b lg:border-b-0 lg:border-r border-hairline">
-          <div
-            className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]"
-            style={{
-              background: `radial-gradient(120% 80% at ${reverse ? '80%' : '20%'} 30%, ${project.accent.replace(')', ' / 0.45)')}, transparent 60%), linear-gradient(180deg, hsl(222 24% 8%), hsl(222 28% 5%))`,
-            }}
-          />
-          <div className="absolute inset-0 grid-pattern opacity-30" />
-          {/* big monogram */}
-          <div className="absolute inset-0 grid place-items-center">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={inView ? { scale: 1, opacity: 1 } : {}}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="relative"
+        <div className={`relative grid lg:grid-cols-12 gap-0 ${reverse ? 'lg:[&>*:first-child]:order-2' : ''}`}>
+          {/* Visual */}
+          <div className="lg:col-span-7 aspect-[16/10] lg:aspect-auto relative overflow-hidden border-b lg:border-b-0 lg:border-r border-hairline">
+            <div
+              data-depth
+              style={{ ['--depth' as any]: 10 }}
+              className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]"
             >
-              <div className="size-32 sm:size-44 rounded-3xl glass grid place-items-center shadow-[var(--shadow-soft)]">
-                <Icon className="size-14 sm:size-20 text-foreground/90" />
-              </div>
               <div
-                className="absolute -inset-10 rounded-full blur-3xl -z-10 opacity-60"
-                style={{ background: project.accent }}
+                className="absolute inset-0"
+                style={{
+                  background: `radial-gradient(120% 80% at ${reverse ? '80%' : '20%'} 30%, ${project.accent.replace(')', ' / 0.45)')}, transparent 60%), linear-gradient(180deg, hsl(222 24% 8%), hsl(222 28% 5%))`,
+                }}
               />
-            </motion.div>
-          </div>
-          <div className="absolute top-6 left-6 font-mono text-[11px] uppercase tracking-[0.3em] text-foreground/60">
-            {project.n} / {String(PROJECTS.length).padStart(2, '0')}
-          </div>
-          <div className="absolute bottom-6 right-6 font-mono text-[11px] uppercase tracking-[0.3em] text-foreground/60">
-            {project.year}
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col">
-          <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">{project.category}</div>
-          <h3 className="mt-4 font-display text-3xl sm:text-4xl leading-[1.05] text-foreground">{project.title}</h3>
-          <p className="mt-4 text-foreground/80 italic font-display text-lg leading-snug">{project.summary}</p>
-          <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{project.description}</p>
-
-          <div className="mt-6 flex flex-wrap gap-2">
-            {project.stack.map((t) => (
-              <span key={t} className="px-3 py-1 rounded-full border border-hairline text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
-                {t}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-auto pt-8 flex items-center gap-3">
-            <a
-              href={project.github || SOCIAL.github}
-              target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm group/btn"
+              <div className="absolute inset-0 grid-pattern opacity-30" />
+            </div>
+            {/* big monogram — foreground depth */}
+            <div
+              data-depth
+              style={{ ['--depth' as any]: 45 }}
+              className="absolute inset-0 grid place-items-center"
             >
-              <Github className="size-4" />
-              <span className="border-b border-foreground/30 group-hover/btn:border-foreground transition-colors">Source</span>
-            </a>
-            {project.demo && (
-              <a href={project.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm group/btn">
-                <Play className="size-4" />
-                <span className="border-b border-foreground/30 group-hover/btn:border-foreground transition-colors">Demo</span>
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={inView ? { scale: 1, opacity: 1 } : {}}
+                transition={{ duration: 1, delay: 0.2 }}
+                className="relative"
+              >
+                <div className="size-32 sm:size-44 rounded-3xl glass grid place-items-center shadow-[var(--shadow-soft)]">
+                  <Icon className="size-14 sm:size-20 text-foreground/90" />
+                </div>
+                <div
+                  className="absolute -inset-10 rounded-full blur-3xl -z-10 opacity-60"
+                  style={{ background: project.accent }}
+                />
+              </motion.div>
+            </div>
+            <div
+              data-depth
+              style={{ ['--depth' as any]: 30 }}
+              className="absolute top-6 left-6 font-mono text-[11px] uppercase tracking-[0.3em] text-foreground/60"
+            >
+              {project.n} / {String(PROJECTS.length).padStart(2, '0')}
+            </div>
+            <div
+              data-depth
+              style={{ ['--depth' as any]: 30 }}
+              className="absolute bottom-6 right-6 font-mono text-[11px] uppercase tracking-[0.3em] text-foreground/60"
+            >
+              {project.year}
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col">
+            <div
+              data-depth
+              style={{ ['--depth' as any]: 20 }}
+              className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground"
+            >
+              {project.category}
+            </div>
+            <h3
+              data-depth
+              style={{ ['--depth' as any]: 35 }}
+              className="mt-4 font-display text-3xl sm:text-4xl leading-[1.05] text-foreground"
+            >
+              {project.title}
+            </h3>
+            <p className="mt-4 text-foreground/80 italic font-display text-lg leading-snug">{project.summary}</p>
+            <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{project.description}</p>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {project.stack.map((t) => (
+                <span key={t} className="px-3 py-1 rounded-full border border-hairline text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div
+              data-depth
+              style={{ ['--depth' as any]: 25 }}
+              className="mt-auto pt-8 flex items-center gap-3"
+            >
+              <a
+                href={project.github || SOCIAL.github}
+                target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm group/btn"
+              >
+                <Github className="size-4" />
+                <span className="border-b border-foreground/30 group-hover/btn:border-foreground transition-colors">Source</span>
               </a>
-            )}
+              {project.demo && (
+                <a href={project.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm group/btn">
+                  <Play className="size-4" />
+                  <span className="border-b border-foreground/30 group-hover/btn:border-foreground transition-colors">Demo</span>
+                </a>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </Plane3D>
     </motion.article>
   );
 }
+
 
 /* ───────────────────────── LEADERSHIP ───────────────────────── */
 

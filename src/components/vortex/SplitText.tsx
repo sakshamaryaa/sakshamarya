@@ -15,11 +15,13 @@ export function SplitText({
   className?: string;
   delay?: number;
   stagger?: number;
-  as?: keyof JSX.IntrinsicElements;
+  as?: 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'p';
 }) {
   const words = text.split(' ');
+  const TagAny = Tag as any;
   return (
-    <Tag className={className} aria-label={text}>
+    <TagAny className={className} aria-label={text}>
+
       {words.map((word, wi) => (
         <span key={wi} className="inline-block whitespace-nowrap">
           {word.split('').map((ch, ci) => (
@@ -41,6 +43,6 @@ export function SplitText({
           {wi < words.length - 1 && <span className="inline-block">&nbsp;</span>}
         </span>
       ))}
-    </Tag>
+    </TagAny>
   );
 }
