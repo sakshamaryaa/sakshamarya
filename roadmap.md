@@ -1,0 +1,5 @@
+- [ ] Replace portfolio copy and profile data with the uploaded 00 — HOME blueprint
+- [ ] Expand selected work to nine projects
+- [ ] Add Achievements, How I Think, Beyond Code, and NDA × IAF sections
+- [ ] Synchronize header and section rail navigation
+- [ ] Verify the central page flow and build diagnostics
