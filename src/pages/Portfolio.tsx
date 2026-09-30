@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'fra
 import {
   ArrowUpRight, ArrowRight, Mail, MapPin, Github, Instagram,
   Cpu, Bot, Zap, Shield, Wifi, Calculator, Sparkles, Rocket,
-  Brain, Lightbulb, MessageCircle, Play, Globe,
+  Brain, Lightbulb, MessageCircle, Play, Globe, RotateCcw, Code2,
 } from 'lucide-react';
 import { LoadingScreen } from '@/components/vortex/LoadingScreen';
 import { ScrollProgress } from '@/components/vortex/ScrollProgress';
@@ -28,24 +28,28 @@ const NAV = [
   { label: 'Journey', href: '#journey', n: '02' },
   { label: 'Skills', href: '#skills', n: '03' },
   { label: 'Work', href: '#work', n: '04' },
-  { label: 'Vision', href: '#vision', n: '05' },
-  { label: 'Contact', href: '#contact', n: '06' },
+  { label: 'Achievements', href: '#achievements', n: '05' },
+  { label: 'How I Think', href: '#think', n: '06' },
+  { label: 'Beyond Code', href: '#beyond', n: '07' },
+  { label: 'NDA × IAF', href: '#direction', n: '08' },
+  { label: 'Vision', href: '#vision', n: '09' },
+  { label: 'Contact', href: '#contact', n: '10' },
 ];
 
-const ROTATING = ['student.', 'builder.', 'roboticist.', 'tech explorer.', 'innovator.'];
+const ROTATING = ['student.', 'builder.', 'roboticist.', 'developer.', 'tech explorer.', 'innovator.'];
 
 const JOURNEY = [
-  { year: '2023', tag: 'Origin', title: 'A spark with Arduino', text: 'Picked up my first microcontroller. Solder, sensors, late nights — and the realisation that I could make ideas move in the real world.' },
-  { year: '2024', tag: 'Craft',  title: 'Building, relentlessly', text: 'Shipped a wave of electronics and automation projects. Learnt the discipline of iteration — sketch, prototype, fail, refine.' },
-  { year: '2025', tag: 'Leadership', title: 'AI VIDYASETU 1.0', text: 'Led my team at the AI VIDYASETU 1.0 Hackathon in Guwahati. Designed, defended and demoed an AI-driven idea on stage.' },
-  { year: '2026', tag: 'Horizon', title: 'Class XI · Science · JEE', text: 'Entering Class XI with Computer Science. Preparing for JEE while continuing to build at the edge of AI, robotics and design.' },
+  { year: '2023', tag: 'Origin', title: 'The first spark', text: 'It started with Arduino. Microcontrollers, breadboards, LEDs, sensors and countless experiments became my introduction to embedded technology. I wanted to understand why things worked.' },
+  { year: '2024', tag: 'Experiment', title: 'Building, relentlessly', text: 'I moved from simple experiments into practical automation and IoT projects: motors, sensors, Bluetooth, GSM and relays. Every problem pushed me to learn another piece of technology.' },
+  { year: '2025', tag: 'Expansion', title: 'Thinking in systems', text: 'I began combining hardware, software, communication, design and AI into larger ideas. At AI VIDYASETU 1.0, I led ideation, technical planning, presentation and demonstration.' },
+  { year: '2026', tag: 'Direction', title: 'Class XI · Science · JEE · NDA', text: 'A new phase brings deeper Physics, Chemistry, Mathematics and Computer Science, alongside preparation for the National Defence Academy and a long-term Indian Air Force vision.' },
 ];
 
 const SKILL_CLUSTERS = [
-  { title: 'Languages', items: ['Python', 'JavaScript', 'TypeScript', 'C / C++', 'HTML', 'CSS'] },
-  { title: 'Hardware',  items: ['Arduino', 'ESP / GSM', 'Sensors', 'Motor Control', 'PCB Basics', 'Soldering'] },
-  { title: 'AI & Web',  items: ['Prompt Engineering', 'Google AI Studio', 'React', 'Tailwind', 'Vercel', 'Lovable'] },
-  { title: 'Craft',     items: ['Figma', 'Canva', 'Photography', 'Editorial Design', 'Storytelling', 'Branding'] },
+  { title: 'Programming', items: ['Python', 'C / C++', 'JavaScript', 'TypeScript', 'HTML', 'CSS'] },
+  { title: 'Hardware', items: ['Arduino', 'ESP / Microcontrollers', 'SIM800L GSM', 'NRF24L01', 'HC-05 Bluetooth', 'Sensors', 'Servo Systems', 'Motor Control', 'PWM', 'Relay Systems', 'Basic PCB', 'Soldering'] },
+  { title: 'AI & Development', items: ['Artificial Intelligence', 'Prompt Engineering', 'Google AI Studio', 'React', 'Tailwind CSS', 'Firebase', 'Vercel', 'Lovable', 'Replit'] },
+  { title: 'Design & Creative', items: ['Figma', 'Canva', 'UI/UX', 'Graphic Design', 'Photography', 'Branding', 'Visual Storytelling'] },
 ];
 
 const ECOSYSTEM = [
@@ -82,6 +86,17 @@ const PROJECTS: Project[] = [
   },
   {
     n: '02',
+    title: 'BioRegen_X',
+    category: 'Innovation · Engineering',
+    year: 'Concept',
+    summary: 'A conceptual self-healing road model inspired by biological regeneration.',
+    description: 'BioRegen_X explores how infrastructure could respond to damage instead of relying only on conventional repair. It is an exercise in thinking beyond the prototype and imagining materials as responsive systems.',
+    stack: ['Concept Model', 'Materials', 'Infrastructure', 'Systems Thinking'],
+    icon: Lightbulb,
+    accent: 'hsl(188 88% 64%)',
+  },
+  {
+    n: '03',
     title: 'Smart Car Parking System',
     category: 'Embedded · Automation',
     year: '2024',
@@ -92,7 +107,7 @@ const PROJECTS: Project[] = [
     accent: 'hsl(268 84% 72%)',
   },
   {
-    n: '03',
+    n: '04',
     title: 'GSM Agriculture Motor Starter',
     category: 'IoT · Agriculture',
     year: '2024',
@@ -103,7 +118,7 @@ const PROJECTS: Project[] = [
     accent: 'hsl(188 88% 64%)',
   },
   {
-    n: '04',
+    n: '05',
     title: 'Intrusion & Motion Security',
     category: 'Security · Embedded',
     year: '2024',
@@ -114,7 +129,7 @@ const PROJECTS: Project[] = [
     accent: 'hsl(320 70% 70%)',
   },
   {
-    n: '05',
+    n: '06',
     title: 'Bluetooth Controlled Water Pump',
     category: 'IoT · Home',
     year: '2024',
@@ -125,16 +140,39 @@ const PROJECTS: Project[] = [
     accent: 'hsl(40 90% 60%)',
   },
   {
-    n: '06',
+    n: '07',
+    title: 'Laser Security System',
+    category: 'Security · Embedded',
+    year: 'Experiment',
+    summary: 'A compact beam-based intrusion detection experiment with automated alerts.',
+    description: 'A focused security study exploring how a laser beam can become a simple, precise detection layer. The experiment connects optical sensing, electronics and immediate alert mechanisms.',
+    stack: ['Laser Module', 'LDR Sensor', 'Arduino', 'Buzzer'],
+    icon: Shield,
+    accent: 'hsl(320 70% 70%)',
+  },
+  {
+    n: '08',
     title: 'Quadratic Equation Solver',
-    category: 'Hardware Math',
+    category: 'Embedded Computing',
     year: '2023',
     summary: 'Algebra on bare metal — a physical calculator that thinks in roots.',
-    description: 'Embedded solver computing real and complex roots, displayed on an LCD. A small but formative exercise in turning mathematics into circuitry.',
+    description: 'An embedded mathematical computing device that calculates quadratic equation roots and displays results on an LCD. A formative exercise in turning mathematics into circuitry.',
     stack: ['Arduino', 'C++', 'LCD 16×2', 'Keypad'],
     icon: Calculator,
     accent: 'hsl(220 96% 64%)',
   },
+  {
+    n: '09',
+    title: 'Vortex Planner',
+    category: 'Web · Productivity',
+    year: 'Concept',
+    summary: 'A gamified productivity platform built around tasks, XP, streaks and progress.',
+    description: 'Vortex Planner combines product design, web development, authentication and productivity mechanics into a focused personal planning system designed to make progress visible.',
+    stack: ['React', 'Supabase', 'EmailJS', 'Web Technologies'],
+    icon: Globe,
+    accent: 'hsl(268 84% 72%)',
+  },
+  {
 ];
 
 const LEADERSHIP = [
@@ -144,9 +182,34 @@ const LEADERSHIP = [
 ];
 
 const VISION = [
-  { k: 'Engineering', v: 'Pursue computer science and engineering with a focus on AI, robotics and intelligent systems.' },
-  { k: 'Innovation', v: 'Build technology that solves real Indian problems — agriculture, education, accessibility.' },
-  { k: 'Craft', v: 'Hold design and engineering to the same standard — both deserve to be made carefully.' },
+  { k: 'Learn', v: 'Learn mathematics, understand physics and keep asking better questions.' },
+  { k: 'Build', v: 'Write better code, build better machines and turn useful ideas into systems.' },
+  { k: 'Serve', v: 'Take responsibility, become more disciplined and move forward with purpose.' },
+];
+
+const THINKING = [
+  { title: 'Curiosity', text: 'I don’t like accepting “that’s how it works” without understanding the reason behind it.', icon: Brain },
+  { title: 'Experimentation', text: 'The first version does not have to be perfect. It just has to exist.', icon: Lightbulb },
+  { title: 'Problem solving', text: 'Break a large problem into smaller ones, then solve them one at a time.', icon: Cpu },
+  { title: 'Iteration', text: 'Build → test → fail → understand → improve.', icon: RotateCcw },
+  { title: 'Craft', text: 'Technology should work well — but it should also feel thoughtfully designed.', icon: Sparkles },
+];
+
+const BEYOND = [
+  { title: 'Robotics', text: 'Building physical systems that sense, move and respond.', icon: Bot },
+  { title: 'Electronics', text: 'Understanding what happens beneath the software.', icon: Zap },
+  { title: 'Design', text: 'Turning technical ideas into interfaces people can understand.', icon: Lightbulb },
+  { title: 'Photography', text: 'A different way of observing details, composition and perspective.', icon: Globe },
+  { title: 'Web development', text: 'Building digital products instead of just consuming them.', icon: Code2 },
+  { title: 'AI', text: 'Exploring how intelligent systems can change how we create and solve problems.', icon: Brain },
+];
+
+const ROAD_AHEAD = [
+  { label: 'Now', value: 'Class XI · Science · PCM + CS' },
+  { label: 'Build', value: 'Engineering · Robotics · Programming · AI' },
+  { label: 'Prepare', value: 'Academics · JEE · NDA Preparation · Personal Development' },
+  { label: 'Aim', value: 'National Defence Academy' },
+  { label: 'Vision', value: 'Indian Air Force' },
 ];
 
 const SOCIAL = {
@@ -226,7 +289,7 @@ function Hero() {
       <div className="absolute top-24 inset-x-0 px-6 lg:px-10 flex justify-between font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground z-20">
         <span>N · 25.59° E · 85.13°</span>
         <span className="hidden md:inline">Bihar, India</span>
-        <span className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> Online</span>
+        <span className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> Online · Building · Exploring</span>
       </div>
 
       {/* Portrait — right 55-60% with soft mask & ambient glow, as floating 3D plane */}
@@ -332,14 +395,26 @@ function Hero() {
 
         <Reveal delay={0.35}>
           <div className="mt-10 flex flex-col gap-8 lg:max-w-xl">
-            <p className="text-xl sm:text-2xl lg:text-3xl font-display italic text-foreground/80 leading-snug">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-display italic text-foreground/80 leading-snug">
               A young <RotatingWord />
               <span className="block mt-1 not-italic font-sans text-base sm:text-lg text-muted-foreground tracking-normal">
-                Designing thinking machines and small futures from Bihar, India.
+                I build ideas into reality.
+                <span className="block mt-2 text-sm sm:text-base">A Class XI Science student from Bihar exploring Computer Science, Robotics, AI, Electronics and Engineering.</span>
               </span>
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
+              <div className="grid sm:grid-cols-2 gap-3 max-w-xl">
+                <div className="glass rounded-xl px-4 py-3">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Currently</div>
+                  <div className="mt-1 text-sm">Class XI · Science · PCM + Computer Science</div>
+                </div>
+                <div className="glass rounded-xl px-4 py-3">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Current mission</div>
+                  <div className="mt-1 text-sm">Learn. Build. Experiment. Improve.</div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
               <MagneticButton
                 href="#work"
                 className="group inline-flex items-center gap-3 rounded-full bg-foreground text-background pl-6 pr-2 py-2 text-sm font-medium"
@@ -383,7 +458,7 @@ function Hero() {
 /* ───────────────────────── MARQUEE ───────────────────────── */
 
 function Marquee() {
-  const words = ['Robotics', 'Artificial Intelligence', 'Embedded Systems', 'Design', 'Innovation', 'Engineering', 'Curiosity', 'Craft'];
+  const words = ['Robotics', 'Artificial Intelligence', 'Computer Science', 'Embedded Systems', 'Electronics', 'Web Development', 'Engineering', 'Innovation'];
   const all = [...words, ...words];
   return (
     <div className="relative py-10 border-y border-hairline overflow-hidden">
@@ -411,13 +486,13 @@ function About() {
           <div className="lg:col-span-8">
             <Reveal delay={0.1}>
               <p className="display-xl text-[clamp(1.8rem,4.5vw,4rem)] leading-[1.05] text-foreground/90">
-                I'm a sixteen-year-old <em className="italic text-foreground/60">student from Bihar</em> who builds things that move, think and respond — usually all at once. I started with an Arduino and never quite stopped.
+                I’m a Class XI Science student from Bihar with a strong interest in <em className="italic text-foreground/60">technology, engineering and innovation</em>. I build things that move, think and respond — usually all at once.
               </p>
             </Reveal>
 
             <Reveal delay={0.25}>
               <p className="mt-10 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-                My work lives at the intersection of <span className="text-foreground">hardware, software and design</span>. I prototype quickly, sketch loud, and care quietly about craft. I'm preparing for JEE while shipping things on the side — because the best engineers I've read about never waited for permission to begin.
+                My journey started with Arduino and electronics. Today, my work lives at the intersection of <span className="text-foreground">hardware, software and design</span> — from a web interface to a microcontroller or a robotic system. For me, learning isn’t limited to a classroom.
               </p>
             </Reveal>
           </div>
@@ -429,9 +504,10 @@ function About() {
                   ['Based in', 'Bihar, India'],
                   ['School', 'PM SHRI KENDRIYA VIDYALAYA OFN RAJGIR', true], // highlighted/long
                   ['Speaks', 'Hindi · English'],
-                  ['Currently', 'Class XI · Science'],
-                  ['Focus', 'AI · Robotics · Design'],
-                  ['Status', 'Open to ideas'],
+                  ['Current stage', 'Class XI · Science'],
+                  ['Academic focus', 'Physics · Chemistry · Mathematics · CS'],
+                  ['Interests', 'Robotics · Programming · AI · Electronics'],
+                  ['Direction', 'Engineering · NDA · Indian Air Force'],
                 ].map(([k, v, highlight]) => (
                   <div key={k as string} className="flex flex-col sm:flex-row lg:flex-col xl:flex-row justify-between items-start py-4 gap-2">
                     <dt className="text-muted-foreground shrink-0 font-medium tracking-[0.2em]">{k as string}</dt>
@@ -608,7 +684,7 @@ function Work() {
             </Reveal>
           </div>
           <Reveal delay={0.2}>
-            <p className="max-w-sm text-muted-foreground">Each project is a study in restraint — solving one real problem, well. Hover to look closer.</p>
+              <p className="max-w-sm text-muted-foreground">Not just ideas. Not just concepts. Working experiments, prototypes and systems.</p>
           </Reveal>
         </div>
 
@@ -756,12 +832,12 @@ function ProjectShowcase({ project, index }: { project: Project; index: number }
 
 function Leadership() {
   return (
-    <section id="leadership" className="relative px-6 lg:px-10 py-32 sm:py-40">
+    <section id="achievements" className="relative px-6 lg:px-10 py-32 sm:py-40">
       <div className="max-w-7xl mx-auto">
-        <Reveal><Eyebrow n="05a">Leadership · Innovation</Eyebrow></Reveal>
+        <Reveal><Eyebrow n="05">Achievements · Experience</Eyebrow></Reveal>
         <Reveal delay={0.1}>
           <h2 className="display-xl mt-6 text-[clamp(2.5rem,7vw,6rem)] max-w-4xl">
-            Building <em>with people</em>, not just for them.
+            Where ideas met <em>real-world pressure.</em>
           </h2>
         </Reveal>
 
@@ -787,18 +863,76 @@ function Leadership() {
   );
 }
 
+function HowIThink() {
+  return (
+    <section id="think" className="relative px-6 lg:px-10 py-32 sm:py-40">
+      <div className="max-w-7xl mx-auto">
+        <Reveal><Eyebrow n="06">How I think</Eyebrow></Reveal>
+        <div className="mt-6 grid lg:grid-cols-12 gap-12 items-end">
+          <Reveal delay={0.1} className="lg:col-span-7">
+            <h2 className="display-xl text-[clamp(2.8rem,7vw,6.5rem)] leading-[0.9]">Building is a way of <em>learning.</em></h2>
+          </Reveal>
+          <Reveal delay={0.2} className="lg:col-span-5">
+            <p className="text-lg text-muted-foreground leading-relaxed">I learn best through a cycle that turns curiosity into understanding.</p>
+            <div className="mt-5 font-mono text-xs uppercase tracking-[0.25em] text-foreground/70">Learn → Build → Break → Understand → Build better</div>
+          </Reveal>
+        </div>
+        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {THINKING.map((item, i) => {
+            const Icon = item.icon;
+            return <Reveal key={item.title} delay={0.08 + i * 0.06}><div className="h-full rounded-2xl glass-card p-6 hover-lift"><Icon className="size-5 text-primary" /><h3 className="mt-6 font-display text-2xl">{item.title}</h3><p className="mt-3 text-sm text-muted-foreground leading-relaxed">{item.text}</p></div></Reveal>;
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BeyondCode() {
+  return (
+    <section id="beyond" className="relative px-6 lg:px-10 py-32 sm:py-40">
+      <div className="max-w-7xl mx-auto">
+        <Reveal><Eyebrow n="07">Beyond code</Eyebrow></Reveal>
+        <Reveal delay={0.1}><h2 className="display-xl mt-6 text-[clamp(2.5rem,7vw,6rem)] max-w-4xl">Technology is only <em>one part</em> of the story.</h2></Reveal>
+        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {BEYOND.map((item, i) => { const Icon = item.icon; return <Reveal key={item.title} delay={0.08 + i * 0.05}><div className="group rounded-2xl glass-card p-7 hover-lift"><div className="size-11 rounded-xl glass grid place-items-center"><Icon className="size-5" /></div><h3 className="mt-6 font-display text-2xl">{item.title}</h3><p className="mt-3 text-sm text-muted-foreground leading-relaxed">{item.text}</p></div></Reveal>; })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Direction() {
+  return (
+    <section id="direction" className="relative px-6 lg:px-10 py-32 sm:py-40 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <Reveal><Eyebrow n="08">NDA × IAF · The direction</Eyebrow></Reveal>
+        <div className="mt-6 grid lg:grid-cols-12 gap-12">
+          <Reveal delay={0.1} className="lg:col-span-7"><h2 className="display-xl text-[clamp(3rem,8vw,8rem)] leading-[0.88]">Engineering <span className="text-foreground/35">×</span><br/><em>leadership</em><br/><span className="text-foreground/45">× service.</span></h2></Reveal>
+          <Reveal delay={0.2} className="lg:col-span-5 lg:pt-8"><p className="text-lg text-muted-foreground leading-relaxed">Technology is one side of what I want to pursue. The other is service and leadership. One long-term goal is to pursue the National Defence Academy and work toward becoming an officer in the Indian Air Force.</p><p className="mt-5 text-sm text-muted-foreground leading-relaxed">The goal is to develop the qualities required to take responsibility, lead under pressure, keep learning and serve with purpose.</p></Reveal>
+        </div>
+        <div className="mt-20 grid lg:grid-cols-2 gap-6">
+          <div className="rounded-3xl glass-card p-8 sm:p-10"><div className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">NDA · National Defence Academy</div><p className="mt-5 font-display text-3xl">A long-term goal I’m preparing toward alongside my academic journey.</p><div className="mt-8 flex flex-wrap gap-2">{['Academics', 'Physical development', 'Discipline', 'Leadership', 'General awareness', 'Consistency'].map((v) => <span key={v} className="rounded-full border border-hairline px-3 py-2 text-xs text-muted-foreground">{v}</span>)}</div></div>
+          <div className="rounded-3xl glass-card p-8 sm:p-10"><div className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">IAF · Indian Air Force</div><p className="mt-5 font-display text-3xl">Combining technology and engineering with a career built around leadership, responsibility and service.</p></div>
+        </div>
+        <div className="mt-20"><div className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">The road ahead</div><div className="mt-7 grid md:grid-cols-5 gap-3">{ROAD_AHEAD.map((step, i) => <Reveal key={step.label} delay={i * 0.08}><div className="relative h-full rounded-2xl glass-card p-5"><div className="font-mono text-[10px] uppercase tracking-[0.25em] text-primary">{step.label}</div><div className="mt-4 text-sm leading-relaxed">{step.value}</div>{i < ROAD_AHEAD.length - 1 && <ArrowRight className="hidden md:block absolute top-1/2 -right-4 size-4 text-foreground/40 z-10" />}</div></Reveal>)}</div></div>
+      </div>
+    </section>
+  );
+}
+
 /* ───────────────────────── VISION ───────────────────────── */
 
 function Vision() {
   return (
     <section id="vision" className="relative px-6 lg:px-10 py-32 sm:py-40">
       <div className="max-w-7xl mx-auto">
-        <Reveal><Eyebrow n="05">Where I'm headed</Eyebrow></Reveal>
+        <Reveal><Eyebrow n="09">Vision</Eyebrow></Reveal>
         <Reveal delay={0.1}>
           <h2 className="display-xl mt-6 text-[clamp(2.5rem,8vw,7rem)] max-w-5xl leading-[0.95]">
-            <span className="text-foreground/40">The next ten years</span><br/>
-            <em>belong to people</em><br/>
-            who build carefully.
+            <span className="text-foreground/40">I’m still at the beginning.</span><br/>
+            <em>The mindset stays:</em><br/>
+            learn, build, serve, move forward.
           </h2>
         </Reveal>
 
@@ -834,7 +968,7 @@ function Contact() {
   return (
     <section id="contact" className="relative px-6 lg:px-10 py-32 sm:py-40">
       <div className="max-w-7xl mx-auto">
-        <Reveal><Eyebrow n="06">Conversation</Eyebrow></Reveal>
+        <Reveal><Eyebrow n="10">Conversation</Eyebrow></Reveal>
         <Reveal delay={0.1}>
           <h2 className="display-xl mt-6 text-[clamp(3rem,11vw,11rem)] leading-[0.9]">
             Let's <em>talk</em>.
@@ -842,7 +976,7 @@ function Contact() {
         </Reveal>
         <Reveal delay={0.2}>
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-            Have an idea, a project, or just want to say hello? My inbox is open. The fastest way to reach me is WhatsApp or email.
+            Have something worth building? I’m interested in technology, robotics, AI, engineering, creative projects and ideas worth exploring.
           </p>
         </Reveal>
 
@@ -996,7 +1130,7 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    const ids = ['about', 'journey', 'skills', 'work', 'vision', 'contact'];
+    const ids = NAV.map((item) => item.href.slice(1));
     const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     if (!els.length) return;
     const io = new IntersectionObserver(
@@ -1039,7 +1173,7 @@ function Header() {
               {/* Brand */}
               <a href="#home" className="flex items-center gap-3 pr-3 md:pr-5 md:border-r md:border-foreground/10">
                 <span className="size-8 rounded-full bg-foreground text-background grid place-items-center font-bold text-[10px] tracking-tighter shadow-[0_0_18px_hsl(var(--foreground)/0.25),inset_0_-1px_2px_hsl(var(--background)/0.2)]">
-                  SA
+                   VX
                 </span>
                 <span className="hidden sm:inline font-semibold text-[13px] uppercase tracking-[0.18em] select-none">
                   Mr. Vortex
@@ -1144,6 +1278,9 @@ export default function Portfolio() {
         <Skills />
         <Work />
         <Leadership />
+        <HowIThink />
+        <BeyondCode />
+        <Direction />
         <Vision />
         <Contact />
       </main>
