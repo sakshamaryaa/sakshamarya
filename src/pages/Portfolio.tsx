@@ -927,12 +927,12 @@ function Vision() {
   return (
     <section id="vision" className="relative px-6 lg:px-10 py-32 sm:py-40">
       <div className="max-w-7xl mx-auto">
-        <Reveal><Eyebrow n="05">Where I'm headed</Eyebrow></Reveal>
+        <Reveal><Eyebrow n="09">Vision</Eyebrow></Reveal>
         <Reveal delay={0.1}>
           <h2 className="display-xl mt-6 text-[clamp(2.5rem,8vw,7rem)] max-w-5xl leading-[0.95]">
-            <span className="text-foreground/40">The next ten years</span><br/>
-            <em>belong to people</em><br/>
-            who build carefully.
+            <span className="text-foreground/40">I’m still at the beginning.</span><br/>
+            <em>The mindset stays:</em><br/>
+            learn, build, serve, move forward.
           </h2>
         </Reveal>
 
@@ -968,7 +968,7 @@ function Contact() {
   return (
     <section id="contact" className="relative px-6 lg:px-10 py-32 sm:py-40">
       <div className="max-w-7xl mx-auto">
-        <Reveal><Eyebrow n="06">Conversation</Eyebrow></Reveal>
+        <Reveal><Eyebrow n="10">Conversation</Eyebrow></Reveal>
         <Reveal delay={0.1}>
           <h2 className="display-xl mt-6 text-[clamp(3rem,11vw,11rem)] leading-[0.9]">
             Let's <em>talk</em>.
@@ -976,7 +976,7 @@ function Contact() {
         </Reveal>
         <Reveal delay={0.2}>
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-            Have an idea, a project, or just want to say hello? My inbox is open. The fastest way to reach me is WhatsApp or email.
+            Have something worth building? I’m interested in technology, robotics, AI, engineering, creative projects and ideas worth exploring.
           </p>
         </Reveal>
 
@@ -1130,7 +1130,7 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    const ids = ['about', 'journey', 'skills', 'work', 'vision', 'contact'];
+    const ids = NAV.map((item) => item.href.slice(1));
     const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     if (!els.length) return;
     const io = new IntersectionObserver(
@@ -1173,7 +1173,7 @@ function Header() {
               {/* Brand */}
               <a href="#home" className="flex items-center gap-3 pr-3 md:pr-5 md:border-r md:border-foreground/10">
                 <span className="size-8 rounded-full bg-foreground text-background grid place-items-center font-bold text-[10px] tracking-tighter shadow-[0_0_18px_hsl(var(--foreground)/0.25),inset_0_-1px_2px_hsl(var(--background)/0.2)]">
-                  SA
+                   VX
                 </span>
                 <span className="hidden sm:inline font-semibold text-[13px] uppercase tracking-[0.18em] select-none">
                   Mr. Vortex
@@ -1278,6 +1278,9 @@ export default function Portfolio() {
         <Skills />
         <Work />
         <Leadership />
+        <HowIThink />
+        <BeyondCode />
+        <Direction />
         <Vision />
         <Contact />
       </main>
