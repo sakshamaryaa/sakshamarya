@@ -173,16 +173,6 @@ const PROJECTS: Project[] = [
     accent: 'hsl(268 84% 72%)',
   },
   {
-    n: '10',
-    title: 'Quadratic Equation Solver',
-    category: 'Hardware Math',
-    year: '2023',
-    summary: 'Algebra on bare metal — a physical calculator that thinks in roots.',
-    description: 'Embedded solver computing real and complex roots, displayed on an LCD. A small but formative exercise in turning mathematics into circuitry.',
-    stack: ['Arduino', 'C++', 'LCD 16×2', 'Keypad'],
-    icon: Calculator,
-    accent: 'hsl(220 96% 64%)',
-  },
 ];
 
 const LEADERSHIP = [
@@ -192,9 +182,34 @@ const LEADERSHIP = [
 ];
 
 const VISION = [
-  { k: 'Engineering', v: 'Pursue computer science and engineering with a focus on AI, robotics and intelligent systems.' },
-  { k: 'Innovation', v: 'Build technology that solves real Indian problems — agriculture, education, accessibility.' },
-  { k: 'Craft', v: 'Hold design and engineering to the same standard — both deserve to be made carefully.' },
+  { k: 'Learn', v: 'Learn mathematics, understand physics and keep asking better questions.' },
+  { k: 'Build', v: 'Write better code, build better machines and turn useful ideas into systems.' },
+  { k: 'Serve', v: 'Take responsibility, become more disciplined and move forward with purpose.' },
+];
+
+const THINKING = [
+  { title: 'Curiosity', text: 'I don’t like accepting “that’s how it works” without understanding the reason behind it.', icon: Brain },
+  { title: 'Experimentation', text: 'The first version does not have to be perfect. It just has to exist.', icon: Lightbulb },
+  { title: 'Problem solving', text: 'Break a large problem into smaller ones, then solve them one at a time.', icon: Cpu },
+  { title: 'Iteration', text: 'Build → test → fail → understand → improve.', icon: RotateCcw },
+  { title: 'Craft', text: 'Technology should work well — but it should also feel thoughtfully designed.', icon: Sparkles },
+];
+
+const BEYOND = [
+  { title: 'Robotics', text: 'Building physical systems that sense, move and respond.', icon: Bot },
+  { title: 'Electronics', text: 'Understanding what happens beneath the software.', icon: Zap },
+  { title: 'Design', text: 'Turning technical ideas into interfaces people can understand.', icon: Lightbulb },
+  { title: 'Photography', text: 'A different way of observing details, composition and perspective.', icon: Globe },
+  { title: 'Web development', text: 'Building digital products instead of just consuming them.', icon: Code2 },
+  { title: 'AI', text: 'Exploring how intelligent systems can change how we create and solve problems.', icon: Brain },
+];
+
+const ROAD_AHEAD = [
+  { label: 'Now', value: 'Class XI · Science · PCM + CS' },
+  { label: 'Build', value: 'Engineering · Robotics · Programming · AI' },
+  { label: 'Prepare', value: 'Academics · JEE · NDA Preparation · Personal Development' },
+  { label: 'Aim', value: 'National Defence Academy' },
+  { label: 'Vision', value: 'Indian Air Force' },
 ];
 
 const SOCIAL = {
