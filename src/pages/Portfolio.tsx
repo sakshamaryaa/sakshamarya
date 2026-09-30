@@ -28,24 +28,28 @@ const NAV = [
   { label: 'Journey', href: '#journey', n: '02' },
   { label: 'Skills', href: '#skills', n: '03' },
   { label: 'Work', href: '#work', n: '04' },
-  { label: 'Vision', href: '#vision', n: '05' },
-  { label: 'Contact', href: '#contact', n: '06' },
+  { label: 'Achievements', href: '#achievements', n: '05' },
+  { label: 'How I Think', href: '#think', n: '06' },
+  { label: 'Beyond Code', href: '#beyond', n: '07' },
+  { label: 'NDA × IAF', href: '#direction', n: '08' },
+  { label: 'Vision', href: '#vision', n: '09' },
+  { label: 'Contact', href: '#contact', n: '10' },
 ];
 
-const ROTATING = ['student.', 'builder.', 'roboticist.', 'tech explorer.', 'innovator.'];
+const ROTATING = ['student.', 'builder.', 'roboticist.', 'developer.', 'tech explorer.', 'innovator.'];
 
 const JOURNEY = [
-  { year: '2023', tag: 'Origin', title: 'A spark with Arduino', text: 'Picked up my first microcontroller. Solder, sensors, late nights — and the realisation that I could make ideas move in the real world.' },
-  { year: '2024', tag: 'Craft',  title: 'Building, relentlessly', text: 'Shipped a wave of electronics and automation projects. Learnt the discipline of iteration — sketch, prototype, fail, refine.' },
-  { year: '2025', tag: 'Leadership', title: 'AI VIDYASETU 1.0', text: 'Led my team at the AI VIDYASETU 1.0 Hackathon in Guwahati. Designed, defended and demoed an AI-driven idea on stage.' },
-  { year: '2026', tag: 'Horizon', title: 'Class XI · Science · JEE', text: 'Entering Class XI with Computer Science. Preparing for JEE while continuing to build at the edge of AI, robotics and design.' },
+  { year: '2023', tag: 'Origin', title: 'The first spark', text: 'It started with Arduino. Microcontrollers, breadboards, LEDs, sensors and countless experiments became my introduction to embedded technology. I wanted to understand why things worked.' },
+  { year: '2024', tag: 'Experiment', title: 'Building, relentlessly', text: 'I moved from simple experiments into practical automation and IoT projects: motors, sensors, Bluetooth, GSM and relays. Every problem pushed me to learn another piece of technology.' },
+  { year: '2025', tag: 'Expansion', title: 'Thinking in systems', text: 'I began combining hardware, software, communication, design and AI into larger ideas. At AI VIDYASETU 1.0, I led ideation, technical planning, presentation and demonstration.' },
+  { year: '2026', tag: 'Direction', title: 'Class XI · Science · JEE · NDA', text: 'A new phase brings deeper Physics, Chemistry, Mathematics and Computer Science, alongside preparation for the National Defence Academy and a long-term Indian Air Force vision.' },
 ];
 
 const SKILL_CLUSTERS = [
-  { title: 'Languages', items: ['Python', 'JavaScript', 'TypeScript', 'C / C++', 'HTML', 'CSS'] },
-  { title: 'Hardware',  items: ['Arduino', 'ESP / GSM', 'Sensors', 'Motor Control', 'PCB Basics', 'Soldering'] },
-  { title: 'AI & Web',  items: ['Prompt Engineering', 'Google AI Studio', 'React', 'Tailwind', 'Vercel', 'Lovable'] },
-  { title: 'Craft',     items: ['Figma', 'Canva', 'Photography', 'Editorial Design', 'Storytelling', 'Branding'] },
+  { title: 'Programming', items: ['Python', 'C / C++', 'JavaScript', 'TypeScript', 'HTML', 'CSS'] },
+  { title: 'Hardware', items: ['Arduino', 'ESP / Microcontrollers', 'SIM800L GSM', 'NRF24L01', 'HC-05 Bluetooth', 'Sensors', 'Servo Systems', 'Motor Control', 'PWM', 'Relay Systems', 'Basic PCB', 'Soldering'] },
+  { title: 'AI & Development', items: ['Artificial Intelligence', 'Prompt Engineering', 'Google AI Studio', 'React', 'Tailwind CSS', 'Firebase', 'Vercel', 'Lovable', 'Replit'] },
+  { title: 'Design & Creative', items: ['Figma', 'Canva', 'UI/UX', 'Graphic Design', 'Photography', 'Branding', 'Visual Storytelling'] },
 ];
 
 const ECOSYSTEM = [
@@ -82,6 +86,17 @@ const PROJECTS: Project[] = [
   },
   {
     n: '02',
+    title: 'BioRegen_X',
+    category: 'Innovation · Engineering',
+    year: 'Concept',
+    summary: 'A conceptual self-healing road model inspired by biological regeneration.',
+    description: 'BioRegen_X explores how infrastructure could respond to damage instead of relying only on conventional repair. It is an exercise in thinking beyond the prototype and imagining materials as responsive systems.',
+    stack: ['Concept Model', 'Materials', 'Infrastructure', 'Systems Thinking'],
+    icon: Lightbulb,
+    accent: 'hsl(188 88% 64%)',
+  },
+  {
+    n: '03',
     title: 'Smart Car Parking System',
     category: 'Embedded · Automation',
     year: '2024',
@@ -92,7 +107,7 @@ const PROJECTS: Project[] = [
     accent: 'hsl(268 84% 72%)',
   },
   {
-    n: '03',
+    n: '04',
     title: 'GSM Agriculture Motor Starter',
     category: 'IoT · Agriculture',
     year: '2024',
@@ -103,7 +118,7 @@ const PROJECTS: Project[] = [
     accent: 'hsl(188 88% 64%)',
   },
   {
-    n: '04',
+    n: '05',
     title: 'Intrusion & Motion Security',
     category: 'Security · Embedded',
     year: '2024',
@@ -114,7 +129,7 @@ const PROJECTS: Project[] = [
     accent: 'hsl(320 70% 70%)',
   },
   {
-    n: '05',
+    n: '06',
     title: 'Bluetooth Controlled Water Pump',
     category: 'IoT · Home',
     year: '2024',
@@ -125,7 +140,40 @@ const PROJECTS: Project[] = [
     accent: 'hsl(40 90% 60%)',
   },
   {
-    n: '06',
+    n: '07',
+    title: 'Laser Security System',
+    category: 'Security · Embedded',
+    year: 'Experiment',
+    summary: 'A compact beam-based intrusion detection experiment with automated alerts.',
+    description: 'A focused security study exploring how a laser beam can become a simple, precise detection layer. The experiment connects optical sensing, electronics and immediate alert mechanisms.',
+    stack: ['Laser Module', 'LDR Sensor', 'Arduino', 'Buzzer'],
+    icon: Shield,
+    accent: 'hsl(320 70% 70%)',
+  },
+  {
+    n: '08',
+    title: 'Quadratic Equation Solver',
+    category: 'Embedded Computing',
+    year: '2023',
+    summary: 'Algebra on bare metal — a physical calculator that thinks in roots.',
+    description: 'An embedded mathematical computing device that calculates quadratic equation roots and displays results on an LCD. A formative exercise in turning mathematics into circuitry.',
+    stack: ['Arduino', 'C++', 'LCD 16×2', 'Keypad'],
+    icon: Calculator,
+    accent: 'hsl(220 96% 64%)',
+  },
+  {
+    n: '09',
+    title: 'Vortex Planner',
+    category: 'Web · Productivity',
+    year: 'Concept',
+    summary: 'A gamified productivity platform built around tasks, XP, streaks and progress.',
+    description: 'Vortex Planner combines product design, web development, authentication and productivity mechanics into a focused personal planning system designed to make progress visible.',
+    stack: ['React', 'Supabase', 'EmailJS', 'Web Technologies'],
+    icon: Globe,
+    accent: 'hsl(268 84% 72%)',
+  },
+  {
+    n: '10',
     title: 'Quadratic Equation Solver',
     category: 'Hardware Math',
     year: '2023',
