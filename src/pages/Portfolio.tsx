@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'fra
 import {
   ArrowUpRight, ArrowRight, Mail, MapPin, Github, Instagram,
   Cpu, Bot, Zap, Shield, Wifi, Calculator, Sparkles, Rocket,
-  Brain, Lightbulb, MessageCircle, Play, Globe,
+  Brain, Lightbulb, MessageCircle, Play, Globe, RotateCcw, Code2,
 } from 'lucide-react';
 import { LoadingScreen } from '@/components/vortex/LoadingScreen';
 import { ScrollProgress } from '@/components/vortex/ScrollProgress';
