@@ -684,7 +684,7 @@ function Work() {
             </Reveal>
           </div>
           <Reveal delay={0.2}>
-            <p className="max-w-sm text-muted-foreground">Each project is a study in restraint — solving one real problem, well. Hover to look closer.</p>
+              <p className="max-w-sm text-muted-foreground">Not just ideas. Not just concepts. Working experiments, prototypes and systems.</p>
           </Reveal>
         </div>
 
@@ -832,12 +832,12 @@ function ProjectShowcase({ project, index }: { project: Project; index: number }
 
 function Leadership() {
   return (
-    <section id="leadership" className="relative px-6 lg:px-10 py-32 sm:py-40">
+    <section id="achievements" className="relative px-6 lg:px-10 py-32 sm:py-40">
       <div className="max-w-7xl mx-auto">
-        <Reveal><Eyebrow n="05a">Leadership · Innovation</Eyebrow></Reveal>
+        <Reveal><Eyebrow n="05">Achievements · Experience</Eyebrow></Reveal>
         <Reveal delay={0.1}>
           <h2 className="display-xl mt-6 text-[clamp(2.5rem,7vw,6rem)] max-w-4xl">
-            Building <em>with people</em>, not just for them.
+            Where ideas met <em>real-world pressure.</em>
           </h2>
         </Reveal>
 
@@ -858,6 +858,64 @@ function Leadership() {
             </Reveal>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function HowIThink() {
+  return (
+    <section id="think" className="relative px-6 lg:px-10 py-32 sm:py-40">
+      <div className="max-w-7xl mx-auto">
+        <Reveal><Eyebrow n="06">How I think</Eyebrow></Reveal>
+        <div className="mt-6 grid lg:grid-cols-12 gap-12 items-end">
+          <Reveal delay={0.1} className="lg:col-span-7">
+            <h2 className="display-xl text-[clamp(2.8rem,7vw,6.5rem)] leading-[0.9]">Building is a way of <em>learning.</em></h2>
+          </Reveal>
+          <Reveal delay={0.2} className="lg:col-span-5">
+            <p className="text-lg text-muted-foreground leading-relaxed">I learn best through a cycle that turns curiosity into understanding.</p>
+            <div className="mt-5 font-mono text-xs uppercase tracking-[0.25em] text-foreground/70">Learn → Build → Break → Understand → Build better</div>
+          </Reveal>
+        </div>
+        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {THINKING.map((item, i) => {
+            const Icon = item.icon;
+            return <Reveal key={item.title} delay={0.08 + i * 0.06}><div className="h-full rounded-2xl glass-card p-6 hover-lift"><Icon className="size-5 text-primary" /><h3 className="mt-6 font-display text-2xl">{item.title}</h3><p className="mt-3 text-sm text-muted-foreground leading-relaxed">{item.text}</p></div></Reveal>;
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BeyondCode() {
+  return (
+    <section id="beyond" className="relative px-6 lg:px-10 py-32 sm:py-40">
+      <div className="max-w-7xl mx-auto">
+        <Reveal><Eyebrow n="07">Beyond code</Eyebrow></Reveal>
+        <Reveal delay={0.1}><h2 className="display-xl mt-6 text-[clamp(2.5rem,7vw,6rem)] max-w-4xl">Technology is only <em>one part</em> of the story.</h2></Reveal>
+        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {BEYOND.map((item, i) => { const Icon = item.icon; return <Reveal key={item.title} delay={0.08 + i * 0.05}><div className="group rounded-2xl glass-card p-7 hover-lift"><div className="size-11 rounded-xl glass grid place-items-center"><Icon className="size-5" /></div><h3 className="mt-6 font-display text-2xl">{item.title}</h3><p className="mt-3 text-sm text-muted-foreground leading-relaxed">{item.text}</p></div></Reveal>; })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Direction() {
+  return (
+    <section id="direction" className="relative px-6 lg:px-10 py-32 sm:py-40 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <Reveal><Eyebrow n="08">NDA × IAF · The direction</Eyebrow></Reveal>
+        <div className="mt-6 grid lg:grid-cols-12 gap-12">
+          <Reveal delay={0.1} className="lg:col-span-7"><h2 className="display-xl text-[clamp(3rem,8vw,8rem)] leading-[0.88]">Engineering <span className="text-foreground/35">×</span><br/><em>leadership</em><br/><span className="text-foreground/45">× service.</span></h2></Reveal>
+          <Reveal delay={0.2} className="lg:col-span-5 lg:pt-8"><p className="text-lg text-muted-foreground leading-relaxed">Technology is one side of what I want to pursue. The other is service and leadership. One long-term goal is to pursue the National Defence Academy and work toward becoming an officer in the Indian Air Force.</p><p className="mt-5 text-sm text-muted-foreground leading-relaxed">The goal is to develop the qualities required to take responsibility, lead under pressure, keep learning and serve with purpose.</p></Reveal>
+        </div>
+        <div className="mt-20 grid lg:grid-cols-2 gap-6">
+          <div className="rounded-3xl glass-card p-8 sm:p-10"><div className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">NDA · National Defence Academy</div><p className="mt-5 font-display text-3xl">A long-term goal I’m preparing toward alongside my academic journey.</p><div className="mt-8 flex flex-wrap gap-2">{['Academics', 'Physical development', 'Discipline', 'Leadership', 'General awareness', 'Consistency'].map((v) => <span key={v} className="rounded-full border border-hairline px-3 py-2 text-xs text-muted-foreground">{v}</span>)}</div></div>
+          <div className="rounded-3xl glass-card p-8 sm:p-10"><div className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">IAF · Indian Air Force</div><p className="mt-5 font-display text-3xl">Combining technology and engineering with a career built around leadership, responsibility and service.</p></div>
+        </div>
+        <div className="mt-20"><div className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">The road ahead</div><div className="mt-7 grid md:grid-cols-5 gap-3">{ROAD_AHEAD.map((step, i) => <Reveal key={step.label} delay={i * 0.08}><div className="relative h-full rounded-2xl glass-card p-5"><div className="font-mono text-[10px] uppercase tracking-[0.25em] text-primary">{step.label}</div><div className="mt-4 text-sm leading-relaxed">{step.value}</div>{i < ROAD_AHEAD.length - 1 && <ArrowRight className="hidden md:block absolute top-1/2 -right-4 size-4 text-foreground/40 z-10" />}</div></Reveal>)}</div></div>
       </div>
     </section>
   );
