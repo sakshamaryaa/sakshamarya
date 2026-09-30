@@ -458,7 +458,7 @@ function Hero() {
 /* ───────────────────────── MARQUEE ───────────────────────── */
 
 function Marquee() {
-  const words = ['Robotics', 'Artificial Intelligence', 'Embedded Systems', 'Design', 'Innovation', 'Engineering', 'Curiosity', 'Craft'];
+  const words = ['Robotics', 'Artificial Intelligence', 'Computer Science', 'Embedded Systems', 'Electronics', 'Web Development', 'Engineering', 'Innovation'];
   const all = [...words, ...words];
   return (
     <div className="relative py-10 border-y border-hairline overflow-hidden">
@@ -486,13 +486,13 @@ function About() {
           <div className="lg:col-span-8">
             <Reveal delay={0.1}>
               <p className="display-xl text-[clamp(1.8rem,4.5vw,4rem)] leading-[1.05] text-foreground/90">
-                I'm a sixteen-year-old <em className="italic text-foreground/60">student from Bihar</em> who builds things that move, think and respond — usually all at once. I started with an Arduino and never quite stopped.
+                I’m a Class XI Science student from Bihar with a strong interest in <em className="italic text-foreground/60">technology, engineering and innovation</em>. I build things that move, think and respond — usually all at once.
               </p>
             </Reveal>
 
             <Reveal delay={0.25}>
               <p className="mt-10 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-                My work lives at the intersection of <span className="text-foreground">hardware, software and design</span>. I prototype quickly, sketch loud, and care quietly about craft. I'm preparing for JEE while shipping things on the side — because the best engineers I've read about never waited for permission to begin.
+                My journey started with Arduino and electronics. Today, my work lives at the intersection of <span className="text-foreground">hardware, software and design</span> — from a web interface to a microcontroller or a robotic system. For me, learning isn’t limited to a classroom.
               </p>
             </Reveal>
           </div>
@@ -504,9 +504,10 @@ function About() {
                   ['Based in', 'Bihar, India'],
                   ['School', 'PM SHRI KENDRIYA VIDYALAYA OFN RAJGIR', true], // highlighted/long
                   ['Speaks', 'Hindi · English'],
-                  ['Currently', 'Class XI · Science'],
-                  ['Focus', 'AI · Robotics · Design'],
-                  ['Status', 'Open to ideas'],
+                  ['Current stage', 'Class XI · Science'],
+                  ['Academic focus', 'Physics · Chemistry · Mathematics · CS'],
+                  ['Interests', 'Robotics · Programming · AI · Electronics'],
+                  ['Direction', 'Engineering · NDA · Indian Air Force'],
                 ].map(([k, v, highlight]) => (
                   <div key={k as string} className="flex flex-col sm:flex-row lg:flex-col xl:flex-row justify-between items-start py-4 gap-2">
                     <dt className="text-muted-foreground shrink-0 font-medium tracking-[0.2em]">{k as string}</dt>
