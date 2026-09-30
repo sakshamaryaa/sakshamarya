@@ -289,7 +289,7 @@ function Hero() {
       <div className="absolute top-24 inset-x-0 px-6 lg:px-10 flex justify-between font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground z-20">
         <span>N · 25.59° E · 85.13°</span>
         <span className="hidden md:inline">Bihar, India</span>
-        <span className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> Online</span>
+        <span className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" /> Online · Building · Exploring</span>
       </div>
 
       {/* Portrait — right 55-60% with soft mask & ambient glow, as floating 3D plane */}
@@ -395,14 +395,26 @@ function Hero() {
 
         <Reveal delay={0.35}>
           <div className="mt-10 flex flex-col gap-8 lg:max-w-xl">
-            <p className="text-xl sm:text-2xl lg:text-3xl font-display italic text-foreground/80 leading-snug">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-display italic text-foreground/80 leading-snug">
               A young <RotatingWord />
               <span className="block mt-1 not-italic font-sans text-base sm:text-lg text-muted-foreground tracking-normal">
-                Designing thinking machines and small futures from Bihar, India.
+                I build ideas into reality.
+                <span className="block mt-2 text-sm sm:text-base">A Class XI Science student from Bihar exploring Computer Science, Robotics, AI, Electronics and Engineering.</span>
               </span>
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
+              <div className="grid sm:grid-cols-2 gap-3 max-w-xl">
+                <div className="glass rounded-xl px-4 py-3">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Currently</div>
+                  <div className="mt-1 text-sm">Class XI · Science · PCM + Computer Science</div>
+                </div>
+                <div className="glass rounded-xl px-4 py-3">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Current mission</div>
+                  <div className="mt-1 text-sm">Learn. Build. Experiment. Improve.</div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
               <MagneticButton
                 href="#work"
                 className="group inline-flex items-center gap-3 rounded-full bg-foreground text-background pl-6 pr-2 py-2 text-sm font-medium"
