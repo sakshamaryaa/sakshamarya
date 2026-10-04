@@ -8,8 +8,12 @@ const SECTIONS = [
   { id: 'journey', label: 'Journey', n: '02' },
   { id: 'skills', label: 'Skills', n: '03' },
   { id: 'work', label: 'Work', n: '04' },
-  { id: 'vision', label: 'Vision', n: '05' },
-  { id: 'contact', label: 'Contact', n: '06' },
+  { id: 'achievements', label: 'Achievements', n: '05' },
+  { id: 'think', label: 'How I Think', n: '06' },
+  { id: 'beyond', label: 'Beyond Code', n: '07' },
+  { id: 'direction', label: 'NDA × IAF', n: '08' },
+  { id: 'vision', label: 'Vision', n: '09' },
+  { id: 'contact', label: 'Contact', n: '10' },
 ];
 
 /**
