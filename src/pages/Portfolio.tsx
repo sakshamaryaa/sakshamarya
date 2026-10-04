@@ -172,7 +172,6 @@ const PROJECTS: Project[] = [
     icon: Globe,
     accent: 'hsl(268 84% 72%)',
   },
-  {
 ];
 
 const LEADERSHIP = [
