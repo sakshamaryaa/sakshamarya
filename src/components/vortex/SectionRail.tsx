@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Cpu, House, Route, Send, Wrench } from 'lucide-react';
 import { Plane3D } from './Plane3D';
 
 const SECTIONS = [
@@ -14,6 +15,14 @@ const SECTIONS = [
   { id: 'direction', label: 'NDA × IAF', n: '08' },
   { id: 'vision', label: 'Vision', n: '09' },
   { id: 'contact', label: 'Contact', n: '10' },
+];
+
+const QUICK_LINKS = [
+  { id: 'home', label: 'Home', icon: House },
+  { id: 'journey', label: 'Journey', icon: Route },
+  { id: 'skills', label: 'Skills', icon: Cpu },
+  { id: 'work', label: 'Work', icon: Wrench },
+  { id: 'contact', label: 'Contact', icon: Send },
 ];
 
 /**
@@ -44,9 +53,9 @@ export function SectionRail() {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 1.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:block pointer-events-none"
+      className="fixed right-5 top-1/2 -translate-y-1/2 z-40 hidden 2xl:block pointer-events-none"
     >
-      <Plane3D max={8} lift={12} glare={false} className="pointer-events-auto flex flex-col items-end gap-4 px-3 py-4 rounded-2xl glass border border-white/10 backdrop-blur-md">
+      <Plane3D max={5} lift={8} glare={false} className="pointer-events-auto flex flex-col items-end gap-3 px-3 py-4 rounded-2xl glass border border-border/60 backdrop-blur-md">
 
       {SECTIONS.map((s) => {
         const isActive = active === s.id;
@@ -88,5 +97,19 @@ export function SectionRail() {
       })}
       </Plane3D>
     </motion.aside>
+    <nav aria-label="Quick section navigation" className="mobile-section-dock fixed inset-x-3 bottom-3 z-50 mx-auto flex max-w-[440px] items-stretch justify-between 2xl:hidden">
+      {QUICK_LINKS.map(({ id, label, icon: Icon }) => (
+        <a
+          key={id}
+          href={`#${id}`}
+          aria-label={label}
+          aria-current={active === id ? 'location' : undefined}
+          className={`mobile-section-link ${active === id ? 'is-active' : ''}`}
+        >
+          <Icon aria-hidden="true" className="size-[18px]" />
+          <span>{label}</span>
+        </a>
+      ))}
+    </nav>
   );
 }

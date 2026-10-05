@@ -3,90 +3,156 @@ import { Points, PointMaterial } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-/**
- * Minimal ambient background: a slow-drifting starfield with gentle
- * scroll + mouse parallax. Sits behind all content.
- */
+type ThemeColors = { primary: string; accent: string; foreground: string };
 
-function Starfield({ count = 2000 }: { count?: number }) {
+function readThemeColors(): ThemeColors {
+  const styles = getComputedStyle(document.documentElement);
+  const color = (name: string) => {
+    const value = styles.getPropertyValue(name).trim();
+    return value ? `hsl(${value})` : 'hsl(0 0% 90%)';
+  };
+  return {
+    primary: color('--primary'),
+    accent: color('--accent'),
+    foreground: color('--foreground'),
+  };
+}
+
+function useThemeColors() {
+  const [colors, setColors] = useState<ThemeColors | null>(null);
+  useEffect(() => {
+    const sync = () => setColors(readThemeColors());
+    sync();
+    const observer = new MutationObserver(sync);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'style'] });
+    return () => observer.disconnect();
+  }, []);
+  return colors;
+}
+
+function Starfield({ count, color }: { count: number; color: string }) {
   const positions = useMemo(() => {
-    const a = new Float32Array(count * 3);
+    const points = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      const r = 10 + Math.random() * 22;
-      const t = Math.random() * Math.PI * 2;
-      const p = Math.acos(2 * Math.random() - 1);
-      a[i * 3] = r * Math.sin(p) * Math.cos(t);
-      a[i * 3 + 1] = r * Math.sin(p) * Math.sin(t);
-      a[i * 3 + 2] = r * Math.cos(p);
+      const radius = 10 + Math.random() * 22;
+      const azimuth = Math.random() * Math.PI * 2;
+      const polar = Math.acos(2 * Math.random() - 1);
+      points[i * 3] = radius * Math.sin(polar) * Math.cos(azimuth);
+      points[i * 3 + 1] = radius * Math.sin(polar) * Math.sin(azimuth);
+      points[i * 3 + 2] = radius * Math.cos(polar);
     }
-    return a;
+    return points;
   }, [count]);
   const ref = useRef<THREE.Points>(null);
-  useFrame((_, dt) => {
+  useFrame((_, rawDelta) => {
+    const delta = Math.min(rawDelta, 0.05);
     if (ref.current) {
-      ref.current.rotation.y += dt * 0.012;
-      ref.current.rotation.x += dt * 0.004;
+      ref.current.rotation.y += delta * 0.012;
+      ref.current.rotation.x += delta * 0.004;
     }
   });
   return (
     <Points ref={ref} positions={positions} stride={3}>
-      <PointMaterial
-        transparent
-        color="#c8d8ff"
-        size={0.02}
-        sizeAttenuation
-        depthWrite={false}
-        opacity={0.85}
-      />
+      <PointMaterial transparent color={color} size={0.018} sizeAttenuation depthWrite={false} opacity={0.62} />
     </Points>
   );
 }
 
-function Rig() {
-  const [scroll, setScroll] = useState(0);
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+function Gyroscope({ colors }: { colors: ThemeColors }) {
+  const outer = useRef<THREE.Mesh>(null);
+  const middle = useRef<THREE.Mesh>(null);
+  const inner = useRef<THREE.Mesh>(null);
+  const core = useRef<THREE.Mesh>(null);
+
+  useFrame((_, rawDelta) => {
+    const delta = Math.min(rawDelta, 0.05);
+    if (outer.current) outer.current.rotation.y += delta * 0.12;
+    if (middle.current) middle.current.rotation.x -= delta * 0.19;
+    if (inner.current) inner.current.rotation.z += delta * 0.24;
+    if (core.current) {
+      core.current.rotation.x += delta * 0.16;
+      core.current.rotation.y += delta * 0.22;
+    }
+  });
+
+  return (
+    <group position={[2.35, 0.12, -0.5]} scale={1.48}>
+      <mesh ref={outer} rotation={[0.4, 0.2, 0.3]}>
+        <torusGeometry args={[1.72, 0.012, 8, 120]} />
+        <meshStandardMaterial color={colors.foreground} metalness={0.78} roughness={0.3} transparent opacity={0.24} />
+      </mesh>
+      <mesh ref={middle} rotation={[1.2, 0.2, -0.4]}>
+        <torusGeometry args={[1.4, 0.024, 8, 100]} />
+        <meshStandardMaterial color={colors.primary} metalness={0.68} roughness={0.24} emissive={colors.primary} emissiveIntensity={0.12} />
+      </mesh>
+      <mesh ref={inner} rotation={[0.5, 0.8, 0.2]}>
+        <torusGeometry args={[1.06, 0.018, 8, 96]} />
+        <meshStandardMaterial color={colors.accent} metalness={0.62} roughness={0.25} emissive={colors.accent} emissiveIntensity={0.1} />
+      </mesh>
+      <mesh ref={core}>
+        <icosahedronGeometry args={[0.42, 2]} />
+        <meshPhysicalMaterial color={colors.primary} metalness={0.54} roughness={0.2} clearcoat={0.9} clearcoatRoughness={0.18} />
+      </mesh>
+    </group>
+  );
+}
+
+function CameraRig() {
+  const pointer = useRef({ x: 0, y: 0, scroll: 0 });
   useEffect(() => {
+    const onMove = (event: MouseEvent) => {
+      pointer.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+      pointer.current.y = (event.clientY / window.innerHeight) * 2 - 1;
+    };
     const onScroll = () => {
-      const h = document.documentElement.scrollHeight - window.innerHeight;
-      setScroll(h > 0 ? window.scrollY / h : 0);
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      pointer.current.scroll = maxScroll > 0 ? window.scrollY / maxScroll : 0;
     };
-    const onMove = (e: MouseEvent) => {
-      setMouse({
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: (e.clientY / window.innerHeight) * 2 - 1,
-      });
-    };
+    window.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('mousemove', onMove);
     onScroll();
     return () => {
+      window.removeEventListener('pointermove', onMove);
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('mousemove', onMove);
     };
   }, []);
-  useFrame((state) => {
-    const cam = state.camera;
-    const targetX = mouse.x * 0.25;
-    const targetY = -mouse.y * 0.2 - scroll * 0.6;
-    cam.position.x += (targetX - cam.position.x) * 0.03;
-    cam.position.y += (targetY - cam.position.y) * 0.03;
-    cam.lookAt(0, 0, 0);
+
+  useFrame(({ camera }, rawDelta) => {
+    const delta = Math.min(rawDelta, 0.05);
+    const amount = 1 - Math.exp(-2.4 * delta);
+    camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.current.x * 0.12, amount);
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, -pointer.current.y * 0.1 - pointer.current.scroll * 0.28, amount);
+    camera.lookAt(0, 0, 0);
   });
   return null;
 }
 
 export function WebGLWorld() {
+  const colors = useThemeColors();
+  const [smallScreen, setSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 720px)');
+    const update = () => setSmallScreen(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
+  if (!colors) return null;
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden>
+    <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
       <Canvas
-        dpr={[1, 1.5]}
-        camera={{ position: [0, 0, 6], fov: 60 }}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        dpr={smallScreen ? [1, 1.15] : [1, 1.4]}
+        camera={{ position: [0, 0, 8], fov: 58 }}
+        gl={{ antialias: !smallScreen, alpha: true, powerPreference: 'high-performance' }}
       >
-        <color attach="background" args={['#05070f']} />
-        <ambientLight intensity={0.5} />
-        <Rig />
-        <Starfield />
+        <ambientLight intensity={0.48} />
+        <pointLight position={[3, 4, 4]} color={colors.primary} intensity={12} distance={16} />
+        <pointLight position={[-4, -2, 2]} color={colors.accent} intensity={8} distance={14} />
+        <CameraRig />
+        <Gyroscope colors={colors} />
+        <Starfield count={smallScreen ? 650 : 1600} color={colors.foreground} />
       </Canvas>
     </div>
   );

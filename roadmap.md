@@ -3,3 +3,6 @@
 - [x] Add Achievements, How I Think, Beyond Code, and NDA × IAF sections
 - [x] Synchronize header and section rail navigation
 - [x] Verify the central page flow and build diagnostics
+- [ ] Replace the existing portfolio visual system with the new dimensional design
+- [ ] Rework the 3D background, navigation, and touch-friendly layouts
+- [ ] Verify the full page at desktop and mobile sizes

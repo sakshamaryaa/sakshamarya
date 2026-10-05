@@ -342,8 +342,8 @@ function Hero() {
           </div>
 
           {/* gradient blends into background */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent lg:via-background/40" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
+          <div className="hero-shade hero-shade-x pointer-events-none absolute inset-0" />
+          <div className="hero-shade hero-shade-y pointer-events-none absolute inset-0" />
           {/* subtle blue/purple wash */}
           <div
             className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-50"
@@ -1145,7 +1145,7 @@ function Header() {
     return () => io.disconnect();
   }, []);
 
-  const links = NAV.slice(1, -1); // About → Vision
+  const links = NAV.filter((item) => ['#about', '#journey', '#skills', '#work', '#contact'].includes(item.href));
 
   const Shell = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
     <div className={`relative rounded-full p-[1px] overflow-hidden group ${className}`}>
@@ -1174,7 +1174,7 @@ function Header() {
                 <span className="size-8 rounded-full bg-foreground text-background grid place-items-center font-bold text-[10px] tracking-tighter shadow-[0_0_18px_hsl(var(--foreground)/0.25),inset_0_-1px_2px_hsl(var(--background)/0.2)]">
                    VX
                 </span>
-                <span className="hidden sm:inline font-semibold text-[13px] uppercase tracking-[0.18em] select-none">
+                <span className="hidden sm:inline font-semibold text-[12px] uppercase tracking-[0.18em] select-none">
                   Mr. Vortex
                 </span>
               </a>
